@@ -1,0 +1,399 @@
+New columns added
+displayorder -> meta_routetype
+otherroutetype -> core_fluidbalanceintakeoutput
+
+Modified Baseview
+fluidbalance_getdisplayorderforfluidbalanceroute
+
+New Baseview created
+fluidbalance_continuousinfusionnotcompleted
+
+Changes in other application
+CareRecordAPI
+
+Script to be executed after adding displayorder column in meta_routetype table
+UPDATE entitystorematerialised.meta_routetype SET displayorder=1 WHERE routetype_id='3cd8c402-888c-11ea-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=2 WHERE routetype_id='3cd8c33a-888c-11ea-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=3 WHERE routetype_id='e99a9506-888e-klkl-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=4 WHERE routetype_id='e99a960a-888e-11ea-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=5 WHERE routetype_id='e99a96dc-888e-11ea-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=6 WHERE routetype_id='e99a97a4-888e-11ea-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=7 WHERE routetype_id='e99a986c-888e-11ea-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=8 WHERE routetype_id='e99a992a-888e-11ea-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=9 WHERE routetype_id='e99a9506-888e-11ea-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=10 WHERE routetype_id='e99a9ac4-888e-11ea-bc55-0242ac130003'
+UPDATE entitystorematerialised.meta_routetype SET displayorder=11 WHERE routetype_id='e99a9506-888e-nntt-bc55-0242ac130003'
+
+
+UPDATE entitystore.meta_routetype SET displayorder=1 WHERE routetype_id='3cd8c402-888c-11ea-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=2 WHERE routetype_id='3cd8c33a-888c-11ea-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=3 WHERE routetype_id='e99a9506-888e-klkl-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=4 WHERE routetype_id='e99a960a-888e-11ea-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=5 WHERE routetype_id='e99a96dc-888e-11ea-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=6 WHERE routetype_id='e99a97a4-888e-11ea-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=7 WHERE routetype_id='e99a986c-888e-11ea-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=8 WHERE routetype_id='e99a992a-888e-11ea-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=9 WHERE routetype_id='e99a9506-888e-11ea-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=10 WHERE routetype_id='e99a9ac4-888e-11ea-bc55-0242ac130003'
+UPDATE entitystore.meta_routetype SET displayorder=11 WHERE routetype_id='e99a9506-888e-nntt-bc55-0242ac130003'
+
+-----------------------------------------------------------------------------------------------------------------------------------
+Build Review 1 Sprint 2 - Changes
+
+New Baseviews
+fluidebalance_getallcontinuousinfusions
+
+Update Baseviews
+fluidbalance_urineoutputhistory
+patientbanner_column2
+
+List and Update "Hartmanns" 
+select * from entitystorematerialised.meta_routetype where routetype like '%Hartm%';
+
+update entitystorematerialised.meta_routetype set routetype='IO-Hartmanns' where routetype_id='3cd8a77e-888c-11ea-bc55-0242ac130003';
+update entitystorematerialised.meta_routetype set routetype='IV-Hartmanns' where routetype_id='3cd8b4e4-888c-11ea-bc55-0242ac130003';
+update entitystorematerialised.meta_routetype set routetype='CVC-Hartmanns' where routetype_id='3cd893f6-888c-11ea-bc55-0242ac130003';
+
+--------------------------------------------------------------------------------------------------------------------------------------
+Changes from 28/09/2020
+
+New Columns added
+displayorder -> meta_route
+
+Changes in other application
+CareRecordAPI
+
+Baseview Changes:
+fluidbalance_urineoutputhistory
+
+INSERT INTO entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder)
+VALUES('77629df5-e9c8-45ed-a410-24c366b20b33', 'RNOHT\Gautam.Bhatt', '426a3f4d-a3a1-4f6a-906e-da020d47d048', 'straw', '', false, 0),
+('cc3cb13a-329e-4cab-bbaf-45dd4839bed9', 'RNOHT\Gautam.Bhatt', '426a3f4d-a3a1-4f6a-906e-da020d47d048', 'fluid-pink', '', false, 0),
+('942c8ae8-b415-403c-a1d5-dfe2736b293a', 'RNOHT\Gautam.Bhatt', '426a3f4d-a3a1-4f6a-906e-da020d47d048', 'fluid-red', '', false, 0);
+
+INSERT INTO entitystorematerialised.meta_routetype(routetype_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route_id, routetype, terminologycode, isflush, displayorder)
+SELECT routetype_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route_id, routetype, terminologycode, isflush, displayorder FROM entitystore.meta_routetype
+WHERE routetype_id in ('77629df5-e9c8-45ed-a410-24c366b20b33', 'cc3cb13a-329e-4cab-bbaf-45dd4839bed9', '942c8ae8-b415-403c-a1d5-dfe2736b293a');
+
+
+INSERT INTO entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, routetype_id, fluidcapturedevice_id)
+VALUES('988f2f6e-b148-4bfd-9263-25f6ccab8ab5', '77629df5-e9c8-45ed-a410-24c366b20b33', '2572b056-b63d-404a-83b5-cb4d291f4922'),
+('18aad4b5-196a-4451-b382-ca5f28d78173', 'cc3cb13a-329e-4cab-bbaf-45dd4839bed9', '2572b056-b63d-404a-83b5-cb4d291f4922'),
+('8886f5a7-1cfe-412f-a8e8-685cf3c1db75', '942c8ae8-b415-403c-a1d5-dfe2736b293a', '2572b056-b63d-404a-83b5-cb4d291f4922');
+
+INSERT INTO entitystorematerialised.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", routetype_id, fluidcapturedevice_id)
+SELECT routetypefluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", routetype_id, fluidcapturedevice_id FROM entitystore.meta_routetypefluidcapturedevice
+WHERE routetypefluidcapturedevice_id in ('988f2f6e-b148-4bfd-9263-25f6ccab8ab5', '18aad4b5-196a-4451-b382-ca5f28d78173', '8886f5a7-1cfe-412f-a8e8-685cf3c1db75');
+
+
+INSERT INTO entitystore.meta_routetype (routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder)
+VALUES('aa5c6ed1-89a3-4653-a388-ee3acc594e7f', 'RNOHT\Gautam.Bhatt', '68d9c70b-3f3a-4587-89af-51f465888947', 'other', '', false, null);
+
+INSERT INTO entitystorematerialised.meta_routetype(routetype_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route_id, routetype, terminologycode, isflush, displayorder)
+SELECT routetype_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route_id, routetype, terminologycode, isflush, displayorder FROM entitystore.meta_routetype
+WHERE routetype_id in ('aa5c6ed1-89a3-4653-a388-ee3acc594e7f');
+
+
+INSERT INTO entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id)
+VALUES('389f2608-2d54-428d-8fcf-0bd857dd934c', 'RNOHT\Gautam.Bhatt', 'aa5c6ed1-89a3-4653-a388-ee3acc594e7f', '1ad2d4f6-ed93-40f6-8580-6fadc60ab896');
+
+INSERT INTO entitystorematerialised.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", routetype_id, fluidcapturedevice_id)
+SELECT routetypefluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", routetype_id, fluidcapturedevice_id FROM entitystore.meta_routetypefluidcapturedevice
+WHERE routetypefluidcapturedevice_id in ('389f2608-2d54-428d-8fcf-0bd857dd934c');
+
+
+INSERT INTO entitystore.meta_routetype (routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder)
+VALUES('e49c40ed-f6f2-43d6-908f-6d06641a9b3c', 'RNOHT\Gautam.Bhatt', '12927ed4-887a-11ea-bc55-0242ac130003', 'Water-(NG, NJ, PEG, PEJ)', '', true, null);
+
+INSERT INTO entitystorematerialised.meta_routetype(routetype_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route_id, routetype, terminologycode, isflush, displayorder)
+SELECT routetype_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route_id, routetype, terminologycode, isflush, displayorder FROM entitystore.meta_routetype
+WHERE routetype_id in ('e49c40ed-f6f2-43d6-908f-6d06641a9b3c');
+
+update entitystore.meta_route set route = 'Bladder Irrigation' where route_id = 'cb935a92-8885-11ea-bc55-0242ac130003';
+
+update entitystorematerialised.meta_route set route = 'Bladder Irrigation' where route_id = 'cb935a92-8885-11ea-bc55-0242ac130003';
+
+INSERT INTO entitystore.meta_fluidcapturedevice(fluidcapturedevice_id, "_createdby", "name")
+VALUES('017c1201-5540-4880-9d73-7f3ac1146cf4', 'RNOHT\Gautam.Bhatt', 'Suprapubic catheter'),
+('951286ac-e82d-41df-9906-6f76ac47cb05', 'RNOHT\Gautam.Bhatt', 'Self catheter (ISC)'),
+('d48f12ec-4e45-48c1-a0f1-964808827264', 'RNOHT\Gautam.Bhatt', 'Urine bottle'),
+('8ca1b01a-8a28-4d51-be10-30b07ac6d367', 'RNOHT\Gautam.Bhatt', 'Other device');
+
+INSERT INTO entitystorematerialised.meta_fluidcapturedevice(fluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", "name")
+SELECT fluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", "name"
+FROM entitystore.meta_fluidcapturedevice
+WHERE fluidcapturedevice_id in ('017c1201-5540-4880-9d73-7f3ac1146cf4', '951286ac-e82d-41df-9906-6f76ac47cb05','d48f12ec-4e45-48c1-a0f1-964808827264', '8ca1b01a-8a28-4d51-be10-30b07ac6d367');
+
+
+INSERT INTO entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id)
+VALUES('89e970bd-3696-4494-9bcd-d47b3d5470b8', 'RNOHT\Gautam.Bhatt', '1f0998da-f5ad-42cd-a6ba-0775bdf3ecf3', '017c1201-5540-4880-9d73-7f3ac1146cf4'),
+('0a294933-0048-4ba5-97e5-e24fe6ee5ebd', 'RNOHT\Gautam.Bhatt', '1f0998da-f5ad-42cd-a6ba-0775bdf3ecf3', '951286ac-e82d-41df-9906-6f76ac47cb05'),
+('fc63e236-1cd2-4f42-afe1-b1c6362be613', 'RNOHT\Gautam.Bhatt', '1f0998da-f5ad-42cd-a6ba-0775bdf3ecf3', 'd48f12ec-4e45-48c1-a0f1-964808827264'),
+('f4e47208-4a46-4a7c-bc06-ba85639bf991', 'RNOHT\Gautam.Bhatt', '1f0998da-f5ad-42cd-a6ba-0775bdf3ecf3', '8ca1b01a-8a28-4d51-be10-30b07ac6d367'),
+('cc2e3c99-2234-4124-b07e-c3677a532b84', 'RNOHT\Gautam.Bhatt', '46b22d5d-3878-46f0-8458-08b1e155bb9b', '017c1201-5540-4880-9d73-7f3ac1146cf4'),
+('6acfaec5-c3ca-4114-8130-d6bfa831185d', 'RNOHT\Gautam.Bhatt', '46b22d5d-3878-46f0-8458-08b1e155bb9b', '951286ac-e82d-41df-9906-6f76ac47cb05'),
+('9fc28259-7ddb-4d28-81de-0b12669e9a9d', 'RNOHT\Gautam.Bhatt', '46b22d5d-3878-46f0-8458-08b1e155bb9b', 'd48f12ec-4e45-48c1-a0f1-964808827264'),
+('a08a8537-2a6b-48d1-b8d1-345480251c91', 'RNOHT\Gautam.Bhatt', '46b22d5d-3878-46f0-8458-08b1e155bb9b', '8ca1b01a-8a28-4d51-be10-30b07ac6d367'),
+('9cc29053-3380-4dc0-8166-1a5d2b3b7b16', 'RNOHT\Gautam.Bhatt', '34c7ca24-8928-4a48-95a1-2d09faf2b9c7', '017c1201-5540-4880-9d73-7f3ac1146cf4'),
+('7ef73994-9fe7-4199-ad09-ace4767f1138', 'RNOHT\Gautam.Bhatt', '34c7ca24-8928-4a48-95a1-2d09faf2b9c7', '951286ac-e82d-41df-9906-6f76ac47cb05'),
+('4ec9182e-4afa-4a7d-a1eb-7f9fbb305ba3', 'RNOHT\Gautam.Bhatt', '34c7ca24-8928-4a48-95a1-2d09faf2b9c7', 'd48f12ec-4e45-48c1-a0f1-964808827264'),
+('987d0dbb-e13a-48da-83c5-fdfb03f1ad8d', 'RNOHT\Gautam.Bhatt', '34c7ca24-8928-4a48-95a1-2d09faf2b9c7', '8ca1b01a-8a28-4d51-be10-30b07ac6d367'),
+('05fa8167-ec0d-4595-90e3-fec63ff1ccd9', 'RNOHT\Gautam.Bhatt', 'fbe6a56e-73e7-4c1b-b9ce-74fa14b89426', '017c1201-5540-4880-9d73-7f3ac1146cf4'),
+('28ba3725-a172-4a93-8c0f-493decb47893', 'RNOHT\Gautam.Bhatt', 'fbe6a56e-73e7-4c1b-b9ce-74fa14b89426', '951286ac-e82d-41df-9906-6f76ac47cb05'),
+('095f4a84-1c11-470d-9e41-958ee7d8ae92', 'RNOHT\Gautam.Bhatt', 'fbe6a56e-73e7-4c1b-b9ce-74fa14b89426', 'd48f12ec-4e45-48c1-a0f1-964808827264'),
+('af2f1a1c-7e7c-4677-a98a-869dcea7c9d4', 'RNOHT\Gautam.Bhatt', 'fbe6a56e-73e7-4c1b-b9ce-74fa14b89426', '8ca1b01a-8a28-4d51-be10-30b07ac6d367'),
+('a85358fb-80b6-4da2-a449-15d45cf78d03', 'RNOHT\Gautam.Bhatt', '3b49e7b6-05b3-4a48-bb20-9e2ea229f36c', '017c1201-5540-4880-9d73-7f3ac1146cf4'),
+('27facfd7-4548-4c3d-8e62-0746491f948d', 'RNOHT\Gautam.Bhatt', '3b49e7b6-05b3-4a48-bb20-9e2ea229f36c', '951286ac-e82d-41df-9906-6f76ac47cb05'),
+('5ec61efd-4007-41b5-984a-69d996d66fad', 'RNOHT\Gautam.Bhatt', '3b49e7b6-05b3-4a48-bb20-9e2ea229f36c', 'd48f12ec-4e45-48c1-a0f1-964808827264'),
+('ee334b11-72ed-4727-bee9-a0b0f2f4a590', 'RNOHT\Gautam.Bhatt', '3b49e7b6-05b3-4a48-bb20-9e2ea229f36c', '8ca1b01a-8a28-4d51-be10-30b07ac6d367'),
+('e1805b61-f723-454e-ad98-7af56754edf4', 'RNOHT\Gautam.Bhatt', '52513c6c-8f25-4603-a3fe-9ae341559643', '017c1201-5540-4880-9d73-7f3ac1146cf4'),
+('b135dd6d-0a1f-4e55-a2de-ed670d544436', 'RNOHT\Gautam.Bhatt', '52513c6c-8f25-4603-a3fe-9ae341559643', '951286ac-e82d-41df-9906-6f76ac47cb05'),
+('69c6ce45-6ec4-4c98-b226-1bb9ba945354', 'RNOHT\Gautam.Bhatt', '52513c6c-8f25-4603-a3fe-9ae341559643', 'd48f12ec-4e45-48c1-a0f1-964808827264'),
+('74e307bc-9501-4b8b-b752-583d3bb0220b', 'RNOHT\Gautam.Bhatt', '52513c6c-8f25-4603-a3fe-9ae341559643', '8ca1b01a-8a28-4d51-be10-30b07ac6d367');
+
+INSERT INTO entitystorematerialised.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", routetype_id, fluidcapturedevice_id)
+SELECT routetypefluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", routetype_id, fluidcapturedevice_id FROM entitystore.meta_routetypefluidcapturedevice
+WHERE routetypefluidcapturedevice_id in (
+'89e970bd-3696-4494-9bcd-d47b3d5470b8','0a294933-0048-4ba5-97e5-e24fe6ee5ebd','fc63e236-1cd2-4f42-afe1-b1c6362be613','f4e47208-4a46-4a7c-bc06-ba85639bf991','cc2e3c99-2234-4124-b07e-c3677a532b84',
+'6acfaec5-c3ca-4114-8130-d6bfa831185d','9fc28259-7ddb-4d28-81de-0b12669e9a9d','a08a8537-2a6b-48d1-b8d1-345480251c91','9cc29053-3380-4dc0-8166-1a5d2b3b7b16','7ef73994-9fe7-4199-ad09-ace4767f1138',
+'4ec9182e-4afa-4a7d-a1eb-7f9fbb305ba3','987d0dbb-e13a-48da-83c5-fdfb03f1ad8d','05fa8167-ec0d-4595-90e3-fec63ff1ccd9','28ba3725-a172-4a93-8c0f-493decb47893','095f4a84-1c11-470d-9e41-958ee7d8ae92',
+'af2f1a1c-7e7c-4677-a98a-869dcea7c9d4','a85358fb-80b6-4da2-a449-15d45cf78d03','27facfd7-4548-4c3d-8e62-0746491f948d','5ec61efd-4007-41b5-984a-69d996d66fad','ee334b11-72ed-4727-bee9-a0b0f2f4a590',
+'e1805b61-f723-454e-ad98-7af56754edf4','b135dd6d-0a1f-4e55-a2de-ed670d544436','69c6ce45-6ec4-4c98-b226-1bb9ba945354','74e307bc-9501-4b8b-b752-583d3bb0220b'
+)
+
+
+insert into entitystore.meta_route(route_id, "_createdby", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder) values('4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5', 'RNOHT\Gautam.Bhatt', 'Chest drain 2', false, false, '', null, null);
+insert into entitystore.meta_route(route_id, "_createdby", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder) values('ed20876b-5f7b-42ba-907d-7e87b89179f9', 'RNOHT\Gautam.Bhatt', 'Chest drain 3', false, false, '', null, null);
+insert into entitystore.meta_route(route_id, "_createdby", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder) values('5e6cf411-2c99-4eba-9693-d8da90863384', 'RNOHT\Gautam.Bhatt', 'Bellovac drain 2', false, false, '', null, null);
+insert into entitystore.meta_route(route_id, "_createdby", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder) values('e1c493d9-3bf8-4db7-9230-7231db6977eb', 'RNOHT\Gautam.Bhatt', 'Bellovac drain 3', false, false, '', null, null);
+insert into entitystore.meta_route(route_id, "_createdby", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder) values('cfe6d867-0bfc-468a-afaa-058a3c8aa477', 'RNOHT\Gautam.Bhatt', 'Redivac drain 2', false, false, '', null, null);
+insert into entitystore.meta_route(route_id, "_createdby", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder) values('73a0ff44-37fb-4b8c-9106-23c5635117ad', 'RNOHT\Gautam.Bhatt', 'Redivac drain 3', false, false, '', null, null);
+insert into entitystore.meta_route(route_id, "_createdby", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder) values('4061c9e5-1635-464e-8537-0355e7a118c4', 'RNOHT\Gautam.Bhatt', 'Wound 2', false, false, '', null, null);
+insert into entitystore.meta_route(route_id, "_createdby", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder) values('ce069d66-c17a-4752-ab13-f5a13bbccf8e', 'RNOHT\Gautam.Bhatt', 'Wound 3', false, false, '', null, null);
+
+INSERT INTO entitystorematerialised.meta_route(route_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder)
+SELECT route_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route, isintake, iscontinuousinfusion, terminologycode, istyperequired, displayorder FROM entitystore.meta_route
+WHERE route_id in ('4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5', 'ed20876b-5f7b-42ba-907d-7e87b89179f9', '5e6cf411-2c99-4eba-9693-d8da90863384', 'e1c493d9-3bf8-4db7-9230-7231db6977eb', 'cfe6d867-0bfc-468a-afaa-058a3c8aa477', '73a0ff44-37fb-4b8c-9106-23c5635117ad', '4061c9e5-1635-464e-8537-0355e7a118c4', 'ce069d66-c17a-4752-ab13-f5a13bbccf8e')
+
+
+
+insert into entitystore.meta_routetype(routetype_id, "_createdby" , route_id, routetype, terminologycode, isflush, displayorder) 
+values('4d32afc9-109b-4a1e-a423-177fd0c1bdd9', 'RNOHT\Gautam.Bhatt', '4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5', 'fluid-clear', '', false, null),
+('0c38c9a4-07c7-4111-8b55-5d9307cf0583', 'RNOHT\Gautam.Bhatt', '4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5', 'fluid-pink', '', false, null),
+('666bfb72-d0cc-4d64-9d06-a3c75cd38f8a', 'RNOHT\Gautam.Bhatt', '4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5', 'fluid-red', '', false, null),
+('82867d15-5ed3-4154-8731-82aadea21458', 'RNOHT\Gautam.Bhatt', '4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5', 'blood', '', false, null),
+('daab3b0f-ac0f-48c3-9ef7-2b4ca61c6909', 'RNOHT\Gautam.Bhatt', '4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5', 'exudate', '', false, null),
+('e44d8af8-ffc2-4c73-b244-83ec60dec292', 'RNOHT\Gautam.Bhatt', '4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5', 'other', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('d61ab5b4-6178-40dd-b8cd-cd1cea38072b', 'RNOHT\Gautam.Bhatt', 'ed20876b-5f7b-42ba-907d-7e87b89179f9', 'fluid-clear', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('b09b85f8-67bc-482f-94a3-75bd29732d24', 'RNOHT\Gautam.Bhatt', 'ed20876b-5f7b-42ba-907d-7e87b89179f9', 'fluid-pink', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('3102e9f7-3828-44af-8017-18ed79de3bac', 'RNOHT\Gautam.Bhatt', 'ed20876b-5f7b-42ba-907d-7e87b89179f9', 'fluid-red', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('7cd1061f-5667-4845-ab00-22493ccaadd1', 'RNOHT\Gautam.Bhatt', 'ed20876b-5f7b-42ba-907d-7e87b89179f9', 'blood', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('1502ed7c-aed5-4503-90d5-9d8aa467164c', 'RNOHT\Gautam.Bhatt', 'ed20876b-5f7b-42ba-907d-7e87b89179f9', 'exudate', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('5b75b5f9-241c-4446-859d-63223975ba7f', 'RNOHT\Gautam.Bhatt', 'ed20876b-5f7b-42ba-907d-7e87b89179f9', 'other', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('7a05effc-bb5d-4e7a-a7c9-786da31b435c', 'RNOHT\Gautam.Bhatt', '5e6cf411-2c99-4eba-9693-d8da90863384', 'blood', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('b5f9b97a-37fd-45c0-b9dc-c5647ba80eb5', 'RNOHT\Gautam.Bhatt', 'e1c493d9-3bf8-4db7-9230-7231db6977eb', 'blood', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('161fd542-5b62-4e47-ad5c-dd16a30602f8', 'RNOHT\Gautam.Bhatt', 'cfe6d867-0bfc-468a-afaa-058a3c8aa477', 'blood', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('49051792-0590-4920-b659-1447a8bf7966', 'RNOHT\Gautam.Bhatt', '73a0ff44-37fb-4b8c-9106-23c5635117ad', 'blood', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('cbfc8b93-7e42-49aa-8a94-1cc30a573ba6', 'RNOHT\Gautam.Bhatt', '4061c9e5-1635-464e-8537-0355e7a118c4', 'fluid-clear', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('f7303912-07c9-48ac-9bc8-bda55d5eebba', 'RNOHT\Gautam.Bhatt', '4061c9e5-1635-464e-8537-0355e7a118c4', 'fluid-pink', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('175595d9-f97d-4089-b8ed-c04e6565730f', 'RNOHT\Gautam.Bhatt', '4061c9e5-1635-464e-8537-0355e7a118c4', 'fluid-red', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('ec8e7e57-3931-46ae-bedf-00c68f78b2eb', 'RNOHT\Gautam.Bhatt', '4061c9e5-1635-464e-8537-0355e7a118c4', 'slough', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('680acd61-98c2-48e5-ac72-a4f76e74caac', 'RNOHT\Gautam.Bhatt', '4061c9e5-1635-464e-8537-0355e7a118c4', 'blood', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('e8fdc084-f3c6-433e-b842-d5a169dc91e3', 'RNOHT\Gautam.Bhatt', '4061c9e5-1635-464e-8537-0355e7a118c4', 'exudate', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('521dbd30-f09f-4f61-8e6a-749b46be1f1a', 'RNOHT\Gautam.Bhatt', 'ce069d66-c17a-4752-ab13-f5a13bbccf8e', 'fluid-clear', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('968142e9-ee90-4a91-abc1-adc1e76d28f2', 'RNOHT\Gautam.Bhatt', 'ce069d66-c17a-4752-ab13-f5a13bbccf8e', 'fluid-pink', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('9e3b2a69-fe7e-4768-a1b6-b62e8e57a3bb', 'RNOHT\Gautam.Bhatt', 'ce069d66-c17a-4752-ab13-f5a13bbccf8e', 'fluid-red', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('8b39c052-4984-465c-9cf1-e09d0fa37099', 'RNOHT\Gautam.Bhatt', 'ce069d66-c17a-4752-ab13-f5a13bbccf8e', 'slough', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('9c0d5382-dfdb-4e60-a188-f15dd17104c6', 'RNOHT\Gautam.Bhatt', 'ce069d66-c17a-4752-ab13-f5a13bbccf8e', 'blood', '', false, null);
+insert into entitystore.meta_routetype(routetype_id, "_createdby", route_id, routetype, terminologycode, isflush, displayorder) values('a429c334-0dd9-4528-9daa-dbc99ad79cc7', 'RNOHT\Gautam.Bhatt', 'ce069d66-c17a-4752-ab13-f5a13bbccf8e', 'exudate', '', false, null);
+
+
+INSERT INTO entitystorematerialised.meta_routetype(routetype_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route_id, routetype, terminologycode, isflush, displayorder)
+SELECT routetype_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", route_id, routetype, terminologycode, isflush, displayorder FROM entitystore.meta_routetype
+WHERE routetype_id in (
+'d61ab5b4-6178-40dd-b8cd-cd1cea38072b','b09b85f8-67bc-482f-94a3-75bd29732d24','3102e9f7-3828-44af-8017-18ed79de3bac','7cd1061f-5667-4845-ab00-22493ccaadd1',
+'1502ed7c-aed5-4503-90d5-9d8aa467164c','5b75b5f9-241c-4446-859d-63223975ba7f','7a05effc-bb5d-4e7a-a7c9-786da31b435c','b5f9b97a-37fd-45c0-b9dc-c5647ba80eb5',
+'161fd542-5b62-4e47-ad5c-dd16a30602f8','49051792-0590-4920-b659-1447a8bf7966','cbfc8b93-7e42-49aa-8a94-1cc30a573ba6','f7303912-07c9-48ac-9bc8-bda55d5eebba',
+'175595d9-f97d-4089-b8ed-c04e6565730f','ec8e7e57-3931-46ae-bedf-00c68f78b2eb','680acd61-98c2-48e5-ac72-a4f76e74caac','e8fdc084-f3c6-433e-b842-d5a169dc91e3',
+'521dbd30-f09f-4f61-8e6a-749b46be1f1a','968142e9-ee90-4a91-abc1-adc1e76d28f2','9e3b2a69-fe7e-4768-a1b6-b62e8e57a3bb','8b39c052-4984-465c-9cf1-e09d0fa37099',
+'9c0d5382-dfdb-4e60-a188-f15dd17104c6','a429c334-0dd9-4528-9daa-dbc99ad79cc7','0c38c9a4-07c7-4111-8b55-5d9307cf0583','666bfb72-d0cc-4d64-9d06-a3c75cd38f8a',
+'82867d15-5ed3-4154-8731-82aadea21458','daab3b0f-ac0f-48c3-9ef7-2b4ca61c6909','e44d8af8-ffc2-4c73-b244-83ec60dec292','4d32afc9-109b-4a1e-a423-177fd0c1bdd9'
+);
+
+
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) 
+values('abda407f-e32b-4bec-936e-8a8691c3417d', 'RNOHT\Gautam.Bhatt','4d32afc9-109b-4a1e-a423-177fd0c1bdd9','1ad2d4f6-ed93-40f6-8580-6fadc60ab896'),
+('767f4609-7058-45e6-91a7-310240fdec28', 'RNOHT\Gautam.Bhatt','0c38c9a4-07c7-4111-8b55-5d9307cf0583','1ad2d4f6-ed93-40f6-8580-6fadc60ab896'),
+('e51d4369-8bbc-4761-80e9-600273647887', 'RNOHT\Gautam.Bhatt','666bfb72-d0cc-4d64-9d06-a3c75cd38f8a','1ad2d4f6-ed93-40f6-8580-6fadc60ab896'),
+('9249ed69-2aa2-4f04-bbd5-adbe00f25533', 'RNOHT\Gautam.Bhatt','82867d15-5ed3-4154-8731-82aadea21458','1ad2d4f6-ed93-40f6-8580-6fadc60ab896'),
+('e4559cef-ac31-4744-abc1-c87b2640a77a', 'RNOHT\Gautam.Bhatt','daab3b0f-ac0f-48c3-9ef7-2b4ca61c6909','1ad2d4f6-ed93-40f6-8580-6fadc60ab896'),
+('7a10afdc-7442-409d-ba8f-d0d21cf2de25', 'RNOHT\Gautam.Bhatt','e44d8af8-ffc2-4c73-b244-83ec60dec292','1ad2d4f6-ed93-40f6-8580-6fadc60ab896');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('29568ab4-f56a-419f-9d3c-f0ad973eb993', 'RNOHT\Gautam.Bhatt','d61ab5b4-6178-40dd-b8cd-cd1cea38072b','1ad2d4f6-ed93-40f6-8580-6fadc60ab896');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('8b5d8ec9-059a-42f3-b358-7491e278398e', 'RNOHT\Gautam.Bhatt','b09b85f8-67bc-482f-94a3-75bd29732d24','1ad2d4f6-ed93-40f6-8580-6fadc60ab896');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('7f168f15-bfa5-433c-9712-d910752f9717', 'RNOHT\Gautam.Bhatt','3102e9f7-3828-44af-8017-18ed79de3bac','1ad2d4f6-ed93-40f6-8580-6fadc60ab896');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('e9c270ca-dcc1-4ef0-978f-82df5df7e0b6', 'RNOHT\Gautam.Bhatt','7cd1061f-5667-4845-ab00-22493ccaadd1','1ad2d4f6-ed93-40f6-8580-6fadc60ab896');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('d7b2669b-da20-4db0-9d1d-d675a64b6f1d', 'RNOHT\Gautam.Bhatt','1502ed7c-aed5-4503-90d5-9d8aa467164c','1ad2d4f6-ed93-40f6-8580-6fadc60ab896');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('78ae62e8-19aa-4f47-b65c-826d5564b575', 'RNOHT\Gautam.Bhatt','5b75b5f9-241c-4446-859d-63223975ba7f','1ad2d4f6-ed93-40f6-8580-6fadc60ab896');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('efbeee30-3a0c-4089-83d5-6958da7acc60', 'RNOHT\Gautam.Bhatt','7a05effc-bb5d-4e7a-a7c9-786da31b435c','3089cfb2-692a-4683-841c-3729f6d294a8');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('bb63cf65-5337-4fda-b755-45d555a69727', 'RNOHT\Gautam.Bhatt','b5f9b97a-37fd-45c0-b9dc-c5647ba80eb5','3089cfb2-692a-4683-841c-3729f6d294a8');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('43ca285f-d102-4116-b69e-25aa47f7efb7', 'RNOHT\Gautam.Bhatt','161fd542-5b62-4e47-ad5c-dd16a30602f8','c455c81a-8cd4-4a26-a7da-d4957f4e8a9c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('c341f55d-ca4f-40e9-8ed9-fbf56c42d984', 'RNOHT\Gautam.Bhatt','161fd542-5b62-4e47-ad5c-dd16a30602f8','c6768bc1-a93b-4cae-a6d0-b26c188e91ff');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('5eb220b2-3e77-42e2-8a00-de5c9482a217', 'RNOHT\Gautam.Bhatt','49051792-0590-4920-b659-1447a8bf7966','c455c81a-8cd4-4a26-a7da-d4957f4e8a9c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('6d185e3c-9ad3-4af6-9a98-c5fc6bbb93a6', 'RNOHT\Gautam.Bhatt','49051792-0590-4920-b659-1447a8bf7966','c6768bc1-a93b-4cae-a6d0-b26c188e91ff');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('cdc646c9-e0df-4a0b-b783-d2de1b874768', 'RNOHT\Gautam.Bhatt','cbfc8b93-7e42-49aa-8a94-1cc30a573ba6','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('f6ffe96b-75ef-4a82-b3cb-2660023156c8', 'RNOHT\Gautam.Bhatt','f7303912-07c9-48ac-9bc8-bda55d5eebba','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('032f1a60-a4fd-45c5-872b-888e51f3b4cc', 'RNOHT\Gautam.Bhatt','175595d9-f97d-4089-b8ed-c04e6565730f','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('82a160ce-e7d9-40a4-a539-92e52bdcebb8', 'RNOHT\Gautam.Bhatt','ec8e7e57-3931-46ae-bedf-00c68f78b2eb','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('46e47636-8aff-4a8a-a972-d5c3c290b8c2', 'RNOHT\Gautam.Bhatt','680acd61-98c2-48e5-ac72-a4f76e74caac','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('41731430-543c-412a-b881-71c5c550019f', 'RNOHT\Gautam.Bhatt','e8fdc084-f3c6-433e-b842-d5a169dc91e3','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('7f09f66a-5b4a-46c4-97b6-98d27e98be4c', 'RNOHT\Gautam.Bhatt','cbfc8b93-7e42-49aa-8a94-1cc30a573ba6','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('3bda21d0-319f-482e-80ca-b4f2d8b107e8', 'RNOHT\Gautam.Bhatt','f7303912-07c9-48ac-9bc8-bda55d5eebba','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('5d383b76-7283-4866-911a-004040a0d42c', 'RNOHT\Gautam.Bhatt','175595d9-f97d-4089-b8ed-c04e6565730f','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('cad971d6-b70e-4dc2-af5b-144735b92313', 'RNOHT\Gautam.Bhatt','ec8e7e57-3931-46ae-bedf-00c68f78b2eb','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('13e033ac-7596-40ea-8736-098eda28f348', 'RNOHT\Gautam.Bhatt','680acd61-98c2-48e5-ac72-a4f76e74caac','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('4774dbcf-6abd-42ce-bbc7-473438f0f716', 'RNOHT\Gautam.Bhatt','e8fdc084-f3c6-433e-b842-d5a169dc91e3','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('b896346a-c6ad-4b00-be93-fc97a284eb75', 'RNOHT\Gautam.Bhatt','cbfc8b93-7e42-49aa-8a94-1cc30a573ba6','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('4e440dd4-1dd1-4b40-9330-3dec633ebda6', 'RNOHT\Gautam.Bhatt','f7303912-07c9-48ac-9bc8-bda55d5eebba','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('824fa191-7d57-4717-a3bc-29158e3d58ed', 'RNOHT\Gautam.Bhatt','175595d9-f97d-4089-b8ed-c04e6565730f','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('d82c0107-0647-4b63-98d0-fe1e2ada62eb', 'RNOHT\Gautam.Bhatt','ec8e7e57-3931-46ae-bedf-00c68f78b2eb','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('3b0e1145-92be-4e60-b14e-88692045bd2c', 'RNOHT\Gautam.Bhatt','680acd61-98c2-48e5-ac72-a4f76e74caac','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('5e90389f-59ec-4772-b7b0-282db8bee07d', 'RNOHT\Gautam.Bhatt','e8fdc084-f3c6-433e-b842-d5a169dc91e3','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('0e33cd57-98c9-4bc9-b4d8-54e22de681ab', 'RNOHT\Gautam.Bhatt','521dbd30-f09f-4f61-8e6a-749b46be1f1a','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('2a151837-7453-4af2-be4e-173abf1e8f3b', 'RNOHT\Gautam.Bhatt','968142e9-ee90-4a91-abc1-adc1e76d28f2','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('30bec644-19d0-4c46-8de1-cf61412e606f', 'RNOHT\Gautam.Bhatt','9e3b2a69-fe7e-4768-a1b6-b62e8e57a3bb','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('c386d00c-81fa-4719-867c-a1dec9e668bc', 'RNOHT\Gautam.Bhatt','8b39c052-4984-465c-9cf1-e09d0fa37099','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('dc4c843f-3039-4975-98da-c1018d3d7789', 'RNOHT\Gautam.Bhatt','9c0d5382-dfdb-4e60-a188-f15dd17104c6','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('845412e1-6de9-42cd-83b8-f4c653e06075', 'RNOHT\Gautam.Bhatt','a429c334-0dd9-4528-9daa-dbc99ad79cc7','54c54acd-a41b-4fe2-9c7e-5a8240e65b93');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('f5d33bd3-b1ad-43c2-9f65-939e15ec553a', 'RNOHT\Gautam.Bhatt','521dbd30-f09f-4f61-8e6a-749b46be1f1a','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('3edc99fd-e5d2-4ec0-b450-eb91f9f97830', 'RNOHT\Gautam.Bhatt','968142e9-ee90-4a91-abc1-adc1e76d28f2','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('7f2f3e8f-7b70-4f0d-ac5c-fa9ec5f7c66b', 'RNOHT\Gautam.Bhatt','9e3b2a69-fe7e-4768-a1b6-b62e8e57a3bb','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('a4d364a2-350a-4190-af07-b90d0bc59184', 'RNOHT\Gautam.Bhatt','8b39c052-4984-465c-9cf1-e09d0fa37099','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('fb52a215-c45a-452c-a802-71daeffddd0c', 'RNOHT\Gautam.Bhatt','9c0d5382-dfdb-4e60-a188-f15dd17104c6','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('214c1564-8afb-48cb-898a-6cf26bd9793d', 'RNOHT\Gautam.Bhatt','a429c334-0dd9-4528-9daa-dbc99ad79cc7','c39468e2-da64-40f2-8a02-31daf6c7a59c');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('f8ef767a-2f3b-4e1d-8797-38ed9d730d3d', 'RNOHT\Gautam.Bhatt','521dbd30-f09f-4f61-8e6a-749b46be1f1a','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('69fa1519-471a-4552-ad5e-ebc3d9695df9', 'RNOHT\Gautam.Bhatt','968142e9-ee90-4a91-abc1-adc1e76d28f2','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('7d681096-f606-4cbc-80bb-12058be5b701', 'RNOHT\Gautam.Bhatt','9e3b2a69-fe7e-4768-a1b6-b62e8e57a3bb','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('4216f21f-3002-4ef7-97b8-ae4c4d69085e', 'RNOHT\Gautam.Bhatt','8b39c052-4984-465c-9cf1-e09d0fa37099','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('bb723022-fcc2-411d-8244-883bd53ba9ec', 'RNOHT\Gautam.Bhatt','9c0d5382-dfdb-4e60-a188-f15dd17104c6','f99a07f6-777b-44f6-814f-f02622739e00');
+insert into entitystore.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_createdby", routetype_id, fluidcapturedevice_id) values('4e3228a5-a51f-4714-829a-2af04db4fa8a', 'RNOHT\Gautam.Bhatt','a429c334-0dd9-4528-9daa-dbc99ad79cc7','f99a07f6-777b-44f6-814f-f02622739e00');
+
+
+INSERT INTO entitystorematerialised.meta_routetypefluidcapturedevice(routetypefluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", routetype_id, fluidcapturedevice_id)
+SELECT routetypefluidcapturedevice_id, "_row_id", "_sequenceid", "_contextkey", "_createdtimestamp", "_createddate", "_createdsource", "_createdmessageid", "_createdby", "_recordstatus", "_timezonename", "_timezoneoffset", "_tenant", routetype_id, fluidcapturedevice_id FROM entitystore.meta_routetypefluidcapturedevice
+WHERE routetypefluidcapturedevice_id in (
+'abda407f-e32b-4bec-936e-8a8691c3417d','767f4609-7058-45e6-91a7-310240fdec28','e51d4369-8bbc-4761-80e9-600273647887','9249ed69-2aa2-4f04-bbd5-adbe00f25533','e4559cef-ac31-4744-abc1-c87b2640a77a',
+'7a10afdc-7442-409d-ba8f-d0d21cf2de25','29568ab4-f56a-419f-9d3c-f0ad973eb993','8b5d8ec9-059a-42f3-b358-7491e278398e','7f168f15-bfa5-433c-9712-d910752f9717','e9c270ca-dcc1-4ef0-978f-82df5df7e0b6',
+'d7b2669b-da20-4db0-9d1d-d675a64b6f1d','78ae62e8-19aa-4f47-b65c-826d5564b575','efbeee30-3a0c-4089-83d5-6958da7acc60','bb63cf65-5337-4fda-b755-45d555a69727','43ca285f-d102-4116-b69e-25aa47f7efb7',
+'c341f55d-ca4f-40e9-8ed9-fbf56c42d984','5eb220b2-3e77-42e2-8a00-de5c9482a217','6d185e3c-9ad3-4af6-9a98-c5fc6bbb93a6','cdc646c9-e0df-4a0b-b783-d2de1b874768','f6ffe96b-75ef-4a82-b3cb-2660023156c8',
+'032f1a60-a4fd-45c5-872b-888e51f3b4cc','82a160ce-e7d9-40a4-a539-92e52bdcebb8','46e47636-8aff-4a8a-a972-d5c3c290b8c2','41731430-543c-412a-b881-71c5c550019f','7f09f66a-5b4a-46c4-97b6-98d27e98be4c',
+'3bda21d0-319f-482e-80ca-b4f2d8b107e8','5d383b76-7283-4866-911a-004040a0d42c','cad971d6-b70e-4dc2-af5b-144735b92313','13e033ac-7596-40ea-8736-098eda28f348','4774dbcf-6abd-42ce-bbc7-473438f0f716',
+'b896346a-c6ad-4b00-be93-fc97a284eb75','4e440dd4-1dd1-4b40-9330-3dec633ebda6','824fa191-7d57-4717-a3bc-29158e3d58ed','d82c0107-0647-4b63-98d0-fe1e2ada62eb','3b0e1145-92be-4e60-b14e-88692045bd2c',
+'5e90389f-59ec-4772-b7b0-282db8bee07d','0e33cd57-98c9-4bc9-b4d8-54e22de681ab','2a151837-7453-4af2-be4e-173abf1e8f3b','30bec644-19d0-4c46-8de1-cf61412e606f','c386d00c-81fa-4719-867c-a1dec9e668bc',
+'dc4c843f-3039-4975-98da-c1018d3d7789','845412e1-6de9-42cd-83b8-f4c653e06075','f5d33bd3-b1ad-43c2-9f65-939e15ec553a','3edc99fd-e5d2-4ec0-b450-eb91f9f97830','7f2f3e8f-7b70-4f0d-ac5c-fa9ec5f7c66b',
+'a4d364a2-350a-4190-af07-b90d0bc59184','fb52a215-c45a-452c-a802-71daeffddd0c','214c1564-8afb-48cb-898a-6cf26bd9793d','f8ef767a-2f3b-4e1d-8797-38ed9d730d3d','69fa1519-471a-4552-ad5e-ebc3d9695df9',
+'7d681096-f606-4cbc-80bb-12058be5b701','4216f21f-3002-4ef7-97b8-ae4c4d69085e','bb723022-fcc2-411d-8244-883bd53ba9ec','4e3228a5-a51f-4714-829a-2af04db4fa8a'
+);
+
+update entitystore.meta_route set route = 'Wound 1' where route = 'Wound';
+update entitystore.meta_route set route = 'Chest drain 1' where route = 'Chest drain';
+update entitystore.meta_route set route = 'Bellovac drain 1' where route = 'Bellovac drain';
+update entitystore.meta_route set route = 'Redivac drain 1' where route = 'Redivac drain';
+
+update entitystorematerialised.meta_route set route = 'Wound 1' where route = 'Wound';
+update entitystorematerialised.meta_route set route = 'Chest drain 1' where route = 'Chest drain';
+update entitystorematerialised.meta_route set route = 'Bellovac drain 1' where route = 'Bellovac drain';
+update entitystorematerialised.meta_route set route = 'Redivac drain 1' where route = 'Redivac drain';
+
+update entitystore.meta_route set displayorder = 10 where route_id = '129280be-887a-11ea-bc55-0242ac130003' and route = 'CVC-Blood';
+update entitystore.meta_route set displayorder = 8 where route_id = '129281b8-887a-11ea-bc55-0242ac130003' and route = 'CVC-Fluids';
+update entitystore.meta_route set displayorder = 9 where route_id = '12928294-887a-11ea-bc55-0242ac130003' and route = 'CVC-Meds';
+update entitystore.meta_route set displayorder = 11 where route_id = '12928474-887a-11ea-bc55-0242ac130003' and route = 'CVC-TPN';
+update entitystore.meta_route set displayorder = 3 where route_id = 'a8671968-887c-11ea-bc55-0242ac130003' and route = 'IV-Blood';
+update entitystore.meta_route set displayorder = 1 where route_id = 'a8671c38-887c-11ea-bc55-0242ac130003' and route = 'IV-Fluid';
+update entitystore.meta_route set displayorder = 2 where route_id = 'cb935362-8885-11ea-bc55-0242ac130003' and route = 'IV-Meds';
+update entitystore.meta_route set displayorder = 4 where route_id = 'cb935574-8885-11ea-bc55-0242ac130003' and route = 'NG';
+update entitystore.meta_route set displayorder = 5 where route_id = 'cb93566e-8885-11ea-bc55-0242ac130003' and route = 'NJ';
+update entitystore.meta_route set displayorder = 6 where route_id = 'cb93590c-8885-11ea-bc55-0242ac130003' and route = 'PEG';
+update entitystore.meta_route set displayorder = 7 where route_id = 'cb9359ca-8885-11ea-bc55-0242ac130003' and route = 'PEJ';
+update entitystore.meta_route set displayorder = 12 where route_id = 'cb935a92-8885-11ea-bc55-0242ac130003' and route = 'Bladder Irrigation';
+update entitystore.meta_route set displayorder = 1 where route_id = '3777c104-519a-445b-8984-d63e3214144b' and route = 'Gastric';
+update entitystore.meta_route set displayorder = 11 where route_id = '426a3f4d-a3a1-4f6a-906e-da020d47d048' and route = 'Lumbar drain';
+update entitystore.meta_route set displayorder = 12 where route_id = '6670ef36-01ef-49e8-b0b0-94025c42bf48' and route = 'Wound 1';
+update entitystore.meta_route set displayorder = 3 where route_id = '4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5' and route = 'Chest drain 2';
+update entitystore.meta_route set displayorder = 4 where route_id = 'ed20876b-5f7b-42ba-907d-7e87b89179f9' and route = 'Chest drain 3';
+update entitystore.meta_route set displayorder = 6 where route_id = '5e6cf411-2c99-4eba-9693-d8da90863384' and route = 'Bellovac drain 2';
+update entitystore.meta_route set displayorder = 7 where route_id = 'e1c493d9-3bf8-4db7-9230-7231db6977eb' and route = 'Bellovac drain 3';
+update entitystore.meta_route set displayorder = 9 where route_id = 'cfe6d867-0bfc-468a-afaa-058a3c8aa477' and route = 'Redivac drain 2';
+update entitystore.meta_route set displayorder = 10 where route_id = '73a0ff44-37fb-4b8c-9106-23c5635117ad' and route = 'Redivac drain 3';
+update entitystore.meta_route set displayorder = 13 where route_id = '4061c9e5-1635-464e-8537-0355e7a118c4' and route = 'Wound 2';
+update entitystore.meta_route set displayorder = 14 where route_id = 'ce069d66-c17a-4752-ab13-f5a13bbccf8e' and route = 'Wound 3';
+update entitystore.meta_route set displayorder = 2 where route_id = '68d9c70b-3f3a-4587-89af-51f465888947' and route = 'Chest drain 1';
+update entitystore.meta_route set displayorder = 5 where route_id = 'ee4733e0-308c-48a3-9330-c02a2cf5d5be' and route = 'Bellovac drain 1';
+update entitystore.meta_route set displayorder = 8 where route_id = '5b7054c9-8edf-4a2a-9406-85dd357781c2' and route = 'Redivac drain 1';
+
+update entitystorematerialised.meta_route set displayorder = 10 where route_id = '129280be-887a-11ea-bc55-0242ac130003' and route = 'CVC-Blood';
+update entitystorematerialised.meta_route set displayorder = 8 where route_id = '129281b8-887a-11ea-bc55-0242ac130003' and route = 'CVC-Fluids';
+update entitystorematerialised.meta_route set displayorder = 9 where route_id = '12928294-887a-11ea-bc55-0242ac130003' and route = 'CVC-Meds';
+update entitystorematerialised.meta_route set displayorder = 11 where route_id = '12928474-887a-11ea-bc55-0242ac130003' and route = 'CVC-TPN';
+update entitystorematerialised.meta_route set displayorder = 3 where route_id = 'a8671968-887c-11ea-bc55-0242ac130003' and route = 'IV-Blood';
+update entitystorematerialised.meta_route set displayorder = 1 where route_id = 'a8671c38-887c-11ea-bc55-0242ac130003' and route = 'IV-Fluid';
+update entitystorematerialised.meta_route set displayorder = 2 where route_id = 'cb935362-8885-11ea-bc55-0242ac130003' and route = 'IV-Meds';
+update entitystorematerialised.meta_route set displayorder = 4 where route_id = 'cb935574-8885-11ea-bc55-0242ac130003' and route = 'NG';
+update entitystorematerialised.meta_route set displayorder = 5 where route_id = 'cb93566e-8885-11ea-bc55-0242ac130003' and route = 'NJ';
+update entitystorematerialised.meta_route set displayorder = 6 where route_id = 'cb93590c-8885-11ea-bc55-0242ac130003' and route = 'PEG';
+update entitystorematerialised.meta_route set displayorder = 7 where route_id = 'cb9359ca-8885-11ea-bc55-0242ac130003' and route = 'PEJ';
+update entitystorematerialised.meta_route set displayorder = 12 where route_id = 'cb935a92-8885-11ea-bc55-0242ac130003' and route = 'Bladder Irrigation';
+update entitystorematerialised.meta_route set displayorder = 1 where route_id = '3777c104-519a-445b-8984-d63e3214144b' and route = 'Gastric';
+update entitystorematerialised.meta_route set displayorder = 11 where route_id = '426a3f4d-a3a1-4f6a-906e-da020d47d048' and route = 'Lumbar drain';
+update entitystorematerialised.meta_route set displayorder = 12 where route_id = '6670ef36-01ef-49e8-b0b0-94025c42bf48' and route = 'Wound 1';
+update entitystorematerialised.meta_route set displayorder = 3 where route_id = '4cca8a1d-d3c1-4a4a-86ca-8ee8ffc95ac5' and route = 'Chest drain 2';
+update entitystorematerialised.meta_route set displayorder = 4 where route_id = 'ed20876b-5f7b-42ba-907d-7e87b89179f9' and route = 'Chest drain 3';
+update entitystorematerialised.meta_route set displayorder = 6 where route_id = '5e6cf411-2c99-4eba-9693-d8da90863384' and route = 'Bellovac drain 2';
+update entitystorematerialised.meta_route set displayorder = 7 where route_id = 'e1c493d9-3bf8-4db7-9230-7231db6977eb' and route = 'Bellovac drain 3';
+update entitystorematerialised.meta_route set displayorder = 9 where route_id = 'cfe6d867-0bfc-468a-afaa-058a3c8aa477' and route = 'Redivac drain 2';
+update entitystorematerialised.meta_route set displayorder = 10 where route_id = '73a0ff44-37fb-4b8c-9106-23c5635117ad' and route = 'Redivac drain 3';
+update entitystorematerialised.meta_route set displayorder = 13 where route_id = '4061c9e5-1635-464e-8537-0355e7a118c4' and route = 'Wound 2';
+update entitystorematerialised.meta_route set displayorder = 14 where route_id = 'ce069d66-c17a-4752-ab13-f5a13bbccf8e' and route = 'Wound 3';
+update entitystorematerialised.meta_route set displayorder = 2 where route_id = '68d9c70b-3f3a-4587-89af-51f465888947' and route = 'Chest drain 1';
+update entitystorematerialised.meta_route set displayorder = 5 where route_id = 'ee4733e0-308c-48a3-9330-c02a2cf5d5be' and route = 'Bellovac drain 1';
+update entitystorematerialised.meta_route set displayorder = 8 where route_id = '5b7054c9-8edf-4a2a-9406-85dd357781c2' and route = 'Redivac drain 1';
+
+update entitystore.meta_routetype set displayorder = 2 where routetype_id = 'b74c2f2f-26f9-4e28-9b8a-65ba216e7ae1' and routetype = 'fluid-clear';
+update entitystore.meta_routetype set displayorder = 5 where routetype_id = 'ba0e2d3b-b6c0-4108-99b0-7b18e8eb5478' and routetype = 'blood';
+update entitystore.meta_routetype set displayorder = 1 where routetype_id = '3cd8c402-888c-11ea-bc55-0242ac130003' and routetype = 'water';
+update entitystore.meta_routetype set displayorder = 2 where routetype_id = '3cd8c33a-888c-11ea-bc55-0242ac130003' and routetype = 'meds (liquid)';
+update entitystore.meta_routetype set displayorder = 3 where routetype_id = 'e99a9506-888e-klkl-bc55-0242ac130003' and routetype = 'tea - black';
+update entitystore.meta_routetype set displayorder = 4 where routetype_id = 'e99a960a-888e-11ea-bc55-0242ac130003' and routetype = 'tea - milk';
+update entitystore.meta_routetype set displayorder = 5 where routetype_id = 'e99a96dc-888e-11ea-bc55-0242ac130003' and routetype = 'coffee - black';
+update entitystore.meta_routetype set displayorder = 6 where routetype_id = 'e99a97a4-888e-11ea-bc55-0242ac130003' and routetype = 'coffee - milk';
+update entitystore.meta_routetype set displayorder = 7 where routetype_id = 'e99a986c-888e-11ea-bc55-0242ac130003' and routetype = 'juice';
+update entitystore.meta_routetype set displayorder = 8 where routetype_id = 'e99a992a-888e-11ea-bc55-0242ac130003' and routetype = 'fizzy drink';
+update entitystore.meta_routetype set displayorder = 9 where routetype_id = 'e99a9506-888e-11ea-bc55-0242ac130003' and routetype = 'milk';
+update entitystore.meta_routetype set displayorder = 10 where routetype_id = 'e99a9ac4-888e-11ea-bc55-0242ac130003' and routetype = 'ensure';
+update entitystore.meta_routetype set displayorder = 11 where routetype_id = 'e99a9506-888e-nntt-bc55-0242ac130003' and routetype = 'other';
+update entitystore.meta_routetype set displayorder = 1 where routetype_id = '77629df5-e9c8-45ed-a410-24c366b20b33' and routetype = 'straw';
+update entitystore.meta_routetype set displayorder = 3 where routetype_id = 'cc3cb13a-329e-4cab-bbaf-45dd4839bed9' and routetype = 'fluid-pink';
+update entitystore.meta_routetype set displayorder = 4 where routetype_id = '942c8ae8-b415-403c-a1d5-dfe2736b293a' and routetype = 'fluid-red';
+
+update entitystorematerialised.meta_routetype set displayorder = 2 where routetype_id = 'b74c2f2f-26f9-4e28-9b8a-65ba216e7ae1' and routetype = 'fluid-clear';
+update entitystorematerialised.meta_routetype set displayorder = 5 where routetype_id = 'ba0e2d3b-b6c0-4108-99b0-7b18e8eb5478' and routetype = 'blood';
+update entitystorematerialised.meta_routetype set displayorder = 1 where routetype_id = '3cd8c402-888c-11ea-bc55-0242ac130003' and routetype = 'water';
+update entitystorematerialised.meta_routetype set displayorder = 2 where routetype_id = '3cd8c33a-888c-11ea-bc55-0242ac130003' and routetype = 'meds (liquid)';
+update entitystorematerialised.meta_routetype set displayorder = 3 where routetype_id = 'e99a9506-888e-klkl-bc55-0242ac130003' and routetype = 'tea - black';
+update entitystorematerialised.meta_routetype set displayorder = 4 where routetype_id = 'e99a960a-888e-11ea-bc55-0242ac130003' and routetype = 'tea - milk';
+update entitystorematerialised.meta_routetype set displayorder = 5 where routetype_id = 'e99a96dc-888e-11ea-bc55-0242ac130003' and routetype = 'coffee - black';
+update entitystorematerialised.meta_routetype set displayorder = 6 where routetype_id = 'e99a97a4-888e-11ea-bc55-0242ac130003' and routetype = 'coffee - milk';
+update entitystorematerialised.meta_routetype set displayorder = 7 where routetype_id = 'e99a986c-888e-11ea-bc55-0242ac130003' and routetype = 'juice';
+update entitystorematerialised.meta_routetype set displayorder = 8 where routetype_id = 'e99a992a-888e-11ea-bc55-0242ac130003' and routetype = 'fizzy drink';
+update entitystorematerialised.meta_routetype set displayorder = 9 where routetype_id = 'e99a9506-888e-11ea-bc55-0242ac130003' and routetype = 'milk';
+update entitystorematerialised.meta_routetype set displayorder = 10 where routetype_id = 'e99a9ac4-888e-11ea-bc55-0242ac130003' and routetype = 'ensure';
+update entitystorematerialised.meta_routetype set displayorder = 11 where routetype_id = 'e99a9506-888e-nntt-bc55-0242ac130003' and routetype = 'other';
+update entitystorematerialised.meta_routetype set displayorder = 1 where routetype_id = '77629df5-e9c8-45ed-a410-24c366b20b33' and routetype = 'straw';
+update entitystorematerialised.meta_routetype set displayorder = 3 where routetype_id = 'cc3cb13a-329e-4cab-bbaf-45dd4839bed9' and routetype = 'fluid-pink';
+update entitystorematerialised.meta_routetype set displayorder = 4 where routetype_id = '942c8ae8-b415-403c-a1d5-dfe2736b293a' and routetype = 'fluid-red';
+
+update entitystore.meta_routetype set routetype = upper(substring(routetype from 1 for 1)) || substring(routetype from 2 for length(routetype));
+update entitystorematerialised.meta_routetype set routetype = upper(substring(routetype from 1 for 1)) || substring(routetype from 2 for length(routetype));
+
+update entitystore.meta_fluidcapturedevice set "name" = upper(substring("name" from 1 for 1)) || substring("name" from 2 for length("name"));
+update entitystorematerialised.meta_fluidcapturedevice set "name" = upper(substring("name" from 1 for 1)) || substring("name" from 2 for length("name"));

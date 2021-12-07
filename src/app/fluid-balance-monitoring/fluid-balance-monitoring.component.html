@@ -1,0 +1,37 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div *ngIf="showHideFBMAtInitLoad && appService.IsCurrentEncounter()">
+  <div *ngIf="showHideFluidBalanceMonitoring">
+    <button type="button" class="btn btn-success text-white" (click)="startFluidBalanceMonitoring()">Start monitoring</button>
+  </div>
+  <div *ngIf="!showHideFluidBalanceMonitoring && !isActiveFluidBalanceMonitoring">
+    <button type="button" class="btn btn-warning text-white" (click)="restartFluidBalanceMonitoring()">Restart monitoring</button>
+  </div>
+  <div class="row" *ngIf="!showHideFluidBalanceMonitoring && isActiveFluidBalanceMonitoring && showRecordWeight">
+    <div class="col-4">
+      <div class="alert alert-info mt-2">
+        <h6 class="font-weight-bold">Weight has not been recorded for this patient</h6>
+        <label>In order to start fluid balance monitoring it is necessary to record the weight of the patient so that it can be used to calculate the estimated hourly urine output</label>
+        <button type="button" class="btn btn-info text-white" (click)="openRecordWeightModal()">Record patient's weight</button>
+      </div>
+    </div>
+  </div>
+</div>

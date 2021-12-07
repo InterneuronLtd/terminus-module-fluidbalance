@@ -1,0 +1,240 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="alert alert-info " style="font-size:0.8rem !important" role="alert">
+    <div class="row">
+        <div class="col-7">
+
+            <h5><b>{{routename}}</b></h5>
+        </div>
+        <div class="col-4 float-right">
+            <h5>{{ciStatus}}</h5>
+        </div>
+        <div class="col-1">
+
+
+            <i class="fa fa-expand" data-toggle="collapse" data-target="#collapseInfusionDetails" aria-expanded="false"
+                aria-controls="collapseInfusionDetails" aria-hidden="true"></i>
+
+        </div>
+    </div>
+
+
+
+    <div class="collapse" id="collapseInfusionDetails">
+        <div class="alert alert-info">
+            <div class="row">
+                <div class="col-3 float-sm-left">
+                    <b>Infusion Volume:</b>
+                </div>
+                <div class="col-3 float-sm-left">
+                    {{coreContinuousinfusion.totalvolume}} ml
+                </div>
+                <div class="col-3 float-right">
+                    <b> Start Time:</b>
+                </div>
+                <div class="col-3 float-sm-right">
+                    {{this.coreContinuousinfusion.startdatetime |  date:'dd/MM/yyy h:mm a'}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3 float-sm-left">
+                    <b>Infusion Delivered(validated):</b>
+
+                </div>
+                <div class="col-3 float-sm-left">
+                    {{coreContinuousinfusion.totaladministeredvolume}} ml
+                </div>
+                <div class="col-3 float-right">
+
+                    <b> Total Pause Duration :</b>
+                </div>
+                <div class="col-3 float-sm-right">
+                    {{pauseDuration}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3 float-sm-left">
+                    <b> Fluid Loss:</b>
+
+                </div>
+                <div class="col-3 float-sm-left">
+                    {{totalfluidLoss}} ml
+                </div>
+                <div class="col-3 float-right">
+
+                    <b> Completion Time:</b>
+                </div>
+                <div class="col-3 float-sm-right">
+                    {{completionTime |  date:'dd/MM/yyy h:mm a'}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3 float-sm-left">
+                    <b>Volume Remaining:</b>
+
+                </div>
+                <div class="col-3 float-sm-left">
+                    {{coreContinuousinfusion.totalremainingvolume}} ml
+                </div>
+                <div class="col-3 float-right">
+                    <b> Time Remaining:</b>
+                </div>
+                <div class="col-3 float-sm-right">
+                    {{timeRemaining}}
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-3 float-sm-left">
+                    <b>Flow Rate:</b>
+
+                </div>
+                <div class="col-3 float-sm-left">
+                    {{coreContinuousinfusion.flowrate}} ml/hour
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" *ngIf="ShowMenu">
+    <div class="row">
+        <div class="col-4" *ngIf="!isInfusionComplete">
+
+            <div class="container px-sm-5 text-center">
+                <h6>Menu</h6>
+                <div class="row mx-sm-n5">
+
+                    <button type="button" (click)="onMenuChange('Validate')"
+                        *ngIf="!coreContinuousinfusion.ispaused && !remainningVolumeIsZero &&  appService.AuthoriseAction('Validate CI')"
+                        class="btn btn-primary btn-sm btn-block"><i class="fa fa-calendar-check-o"
+                            aria-hidden="true"></i> Validate Infusion</button>
+
+                    <button type="button" (click)="onMenuChange('Pause')"
+                        *ngIf="!coreContinuousinfusion.ispaused && !remainningVolumeIsZero &&  appService.AuthoriseAction('Pause CI')"
+                          class="btn btn-secondary btn-sm btn-block"><i class="fa fa-pause-circle-o"
+                            aria-hidden="true"></i> Pause Infusion</button>
+                   
+
+                    <button type="button" (click)="onMenuChange('Bolus')"
+                        *ngIf="!coreContinuousinfusion.ispaused && !remainningVolumeIsZero && appService.AuthoriseAction('Add Bolus')"
+                        class="btn btn-secondary btn-sm btn-block"><i class="fa fa-plus-square-o"
+                            aria-hidden="true"></i> Add Stat Bolus</button>
+
+
+                    <button type="button" (click)="onMenuChange('Flush')"
+                        *ngIf="!coreContinuousinfusion.ispaused && !remainningVolumeIsZero && appService.AuthoriseAction('Add Flush')"
+                        class="btn btn-secondary btn-sm btn-block"><i class="fa fa-plus-square-o"
+                            aria-hidden="true"></i> Add Flush</button>
+
+
+                    <button type="button" (click)="onMenuChange('Flow')"
+                        *ngIf="!coreContinuousinfusion.ispaused && !remainningVolumeIsZero &&  appService.AuthoriseAction('Change CI Flow Rate')"
+                        class="btn btn-secondary btn-sm btn-block"><i class="fa fa-flask" aria-hidden="true"></i> Change
+                        Flow Rate</button>
+
+
+                    <button type="button" (click)="onMenuChange('Pump')"
+                        *ngIf="!coreContinuousinfusion.ispaused && !remainningVolumeIsZero &&  appService.AuthoriseAction('Change CI Pump Number')"
+                        class="btn btn-secondary btn-sm btn-block"> <i class="fa fa-barcode" aria-hidden="true"></i>
+                        Change Pump</button>
+
+                    <button type="button" (click)="onMenuChange('Fluidloss')"
+                        *ngIf="!coreContinuousinfusion.ispaused && !remainningVolumeIsZero &&  appService.AuthoriseAction('Record CI Fluid Loss')"
+                        class="btn btn-secondary btn-sm btn-block"><i class="fa fa-minus-square-o"
+                            aria-hidden="true"></i> Record Fluid Loss</button>
+
+
+                    <button type="button" (click)="onMenuChange('History')"
+                        *ngIf="appService.AuthoriseAction('View CI')" class="btn btn-secondary btn-sm btn-block"><i
+                            class="fa fa-sort-numeric-desc" aria-hidden="true"></i> Show
+                        History</button>
+
+                    <button type="button" (click)="onMenuChange('Complete')"
+                        *ngIf="appService.AuthoriseAction('Complete CI')" class="btn btn-secondary btn-sm btn-block"><i
+                            class="fa fa-battery-full" aria-hidden="true"></i> Complete Infusion</button>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-8" *ngIf="showfluidloss">
+
+            <app-fluid-loss  [selectedTimeslot]="timeslot" [coreContinuousinfusion]="coreContinuousinfusion" (reFreshMenu)="reFreshMenu($event)">
+            </app-fluid-loss>
+
+        </div>
+        <div class="col-8" *ngIf="showpause">
+
+            <app-pause-infusion [filterevent]="filterevent" [coreContinuousinfusion]="coreContinuousinfusion" (reFreshMenu)="reFreshMenu($event)">
+            </app-pause-infusion>
+
+        </div>
+
+
+        <div [ngClass]="{'col-8': !isInfusionComplete, 'col-12': isInfusionComplete}" class="col-8" *ngIf="showHistory">
+
+            <app-infusion-history [coreContinuousinfusion]="coreContinuousinfusion" (reFreshMenu)="reFreshMenu($event)">
+            </app-infusion-history>
+
+        </div>
+        <div class="col-8" *ngIf="showPumpChange">
+
+            <app-change-pump  [selectedTimeslot]="timeslot" [coreContinuousinfusion]="coreContinuousinfusion" (reFreshMenu)="reFreshMenu($event)">
+            </app-change-pump>
+
+        </div>
+
+        <div class="col-8" *ngIf="showAddBolus">
+
+            <app-add-bolus  [selectedTimeslot]="timeslot" [coreContinuousinfusion]="coreContinuousinfusion" (reFreshMenu)="reFreshMenu($event)">
+            </app-add-bolus>
+
+        </div>
+
+        <div class="col-8" *ngIf="showAddFlush">
+
+            <app-add-flush  [selectedTimeslot]="timeslot" [coreContinuousinfusion]="coreContinuousinfusion" (reFreshMenu)="reFreshMenu($event)">
+            </app-add-flush>
+        </div>
+        <div class="col-8" *ngIf="showCompleteInfusion">
+            <!-- <app-complete-infusion [coreContinuousinfusion]="coreContinuousinfusion"
+                (reFreshMenu)="reFreshMenu($event)"></app-complete-infusion> -->
+
+                <app-complete-continous-infusion [selectedTimeslot]="timeslot" [coreContinuousinfusion]="coreContinuousinfusion"
+                (reFreshMenu)="reFreshMenu($event)"></app-complete-continous-infusion>
+
+        </div>
+        <div class="col-8" *ngIf="showValidate">
+
+            <app-validate-infusion [changeFlowRate]='false' [selectedTimeslot]="timeslot" [coreContinuousinfusion]="coreContinuousinfusion"
+                (reFreshMenu)="reFreshMenu($event)"></app-validate-infusion>
+        </div>
+        <div class="col-8" *ngIf="showChangeFlowRate">
+
+            <app-validate-infusion [changeFlowRate]='true' [selectedTimeslot]="timeslot" [coreContinuousinfusion]="coreContinuousinfusion"
+                (reFreshMenu)="reFreshMenu($event)"></app-validate-infusion>
+        </div>
+    </div>
+</div>

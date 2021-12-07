@@ -1,0 +1,171 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div *ngIf="appService.showSBAREscalationForm" [config]="{ show:true, backdrop: 'static'}"  bsModal #autoShownModal="bs-modal"
+class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">       
+<div class="modal-dialog modal-dialog-centered modal-lg">
+ <div class="modal-content">
+ 
+<div class="modal-body" *ngIf="formStatus=='Accepted'">
+    <form #sbarForm="ngForm"  (ngSubmit)="sbarForm.form.valid && submitSBARForm()">
+     <div class="card">  
+        <div class="card-header"> 
+          <span>SBAR Form(Accepted)</span>       
+        <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+       </div>            
+         <div class="card-body" style="overflow-y:scroll;max-height:500px" > 
+           <fieldset [disabled]="readonly">                
+            <div class="row">                    
+                <div class="col-12">
+                    <div class="form-group">
+                     <label>Have you escalated care?</label>
+                     <div class="row">
+                       <div class="col-12">
+                        <select [(ngModel)]="sbar.escalationofcare" #escalationofcare="ngModel" name="escalationofcare" class="form-control" [ngClass]="{ 'is-invalid': sbarForm.submitted && escalationofcare.invalid }" required>
+                            <option [selected]="true" [value]="true">Yes</option>                              
+                            <option [value]="false">No</option>
+                           </select>                        
+                     </div>
+                     </div>
+                   </div>                                            
+              </div>
+            </div>  
+             
+            <div class="row">                    
+                <div class="col-12">
+                    <div class="form-group">
+                     <label>SBAR Guidance</label>
+                     <div class="row">
+                       <div class="col-12 card">
+                          <div class="row">
+                                <div class="col-12">
+                                    <strong>(S)ituation:</strong> <span> I am (name) a nurse on ward(X) calling about patient(X). I am concerned that...</span> 
+                                </div>
+                           </div>  
+                            <div class="row">
+                                <div class="col-12">
+                                     <strong>(B)ackground:</strong>  <span> Patient(X) had operation(X). Patient(X)'s condition has changed in last (XX) mins. Their last obs were(XXX).</span>  
+                                </div>
+                            </div>     
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>(A)ssessment:</strong> <span> I think the problem is (XXXX) and I have given (oxygen/analgesia,etc,) - or - I don't know what the problem is but the patient is deteriorating.</span>
+                                </div>
+                            </div>     
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>(R)ecommendation: </strong><span> I need you to review the patient in the next XX mins. Is there anything else I need to do in the meantime? - Repeat back any actions required.</span>
+
+                                </div>
+                            </div>                  
+                      </div>
+                     </div>
+                   </div>                                            
+              </div>
+            </div>  
+            <div class="row" *ngIf="showSBAR()">                    
+                <div class="col-12">
+                    <div class="form-group">
+                     <label class="control-label">To whom have you escalated care?</label>
+                     <div class="row">
+                       <div class="col-12">
+                        <select [(ngModel)]="sbar.escalatedtowhom" #escalatedtowhom="ngModel" name="escalatedtowhom" class="form-control" [ngClass]="{ 'is-invalid': sbarForm.submitted && escalatedtowhom.invalid }" required>
+                          <option [value]="">Unanswered</option>
+                          <option [selected]="true" [value]='"Registered Nurse"'>Registered Nurse</option>
+                          <option [value]='"Nurse in Charge"'>Nurse in Charge</option>
+                          <option [value]='"Acute Intervention Team (AIT)"'>Acute Intervention Team (AIT)</option>
+                          <option [value]='"Medical Emergency Team (MET)"'>Medical Emergency Team (MET)</option>
+                          <option [value]='"Crash Team"'>Crash Team</option>
+                          <option [value]='"Surgical SHO"'>Surgical SHO</option>
+                          <option [value]='"Registrar"'>Registrar</option>
+                          <option [value]='"Consultant"'>Consultant</option>
+                           </select>                        
+                     </div>
+                     </div>
+                   </div>                                            
+              </div>
+            </div>  
+            <div class="row">                    
+                <div class="col-12">
+                    <div class="form-group">
+                     <label>Monitoring and Escalation Comments</label>
+                     <div class="row">
+                       <div class="col-12">
+                        <textarea [(ngModel)]="sbar.monitoringcomments" #monitoringcomments="ngModel" name="monitoringcomments" class="form-control" [ngClass]="{ 'is-invalid': sbarForm.submitted && monitoringcomments.invalid }" required></textarea>                                                  
+                     </div>
+                     </div>
+                   </div>                                            
+              </div>
+            </div>  
+            <div class="row" *ngIf="!readonly">                                
+              <div class="col-12">
+                <button type="submit" [disabled]="showSpinner" class="btn btn-sm btn-secondary btn-block"  >
+                  <span class="spinner-border spinner-border-sm" *ngIf="showSpinner" role="status" aria-hidden="true"></span> Submit
+                </button>                                  
+              </div>
+           </div>   
+          </fieldset>               
+     </div>                   
+    </div>                                 
+   </form>         
+  </div> 
+
+  <div class="modal-body" *ngIf="formStatus!='Accepted'">
+    <form #sbarForm="ngForm"  (ngSubmit)="sbarForm.form.valid && submitSBARNotRequired()">
+     <div class="card">   
+      <div class="card-header"> 
+        <span>SBAR Form(Not Required)</span>       
+        <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+     </div>            
+         <div class="card-body" style="overflow-y:scroll;max-height:500px">                            
+          <fieldset [disabled]="readonly">  
+            <div class="row">                    
+                <div class="col-12">
+                    <div class="form-group">
+                     <label>Reason</label>
+                     <div class="row">
+                       <div class="col-12">
+                        <textarea [(ngModel)]="sbar.monitoringcomments" #monitoringcomments="ngModel" name="monitoringcomments" class="form-control" [ngClass]="{ 'is-invalid': sbarForm.submitted && monitoringcomments.invalid }" required></textarea>                                                  
+                     </div>
+                     </div>
+                   </div>                                            
+              </div>
+            </div>  
+            <div class="row" *ngIf="!readonly">                                
+              <div class="col-12">
+                <button type="submit" [disabled]="showSpinner" class="btn btn-sm btn-secondary btn-block">
+                  <span class="spinner-border spinner-border-sm" *ngIf="showSpinner" role="status" aria-hidden="true"></span> Submit
+                </button>                                 
+              </div>
+           </div>  
+           </fieldset>                
+     </div>                   
+    </div>                                 
+   </form>         
+  </div> 
+
+ </div>
+</div>
+</div> 
+

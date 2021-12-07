@@ -1,0 +1,29 @@
+
+p.italicClass {
+    font-style: italic;
+    font-size: x-small;
+    font-weight: bold;
+  }
+  
+  p.totalClass {
+  
+      font-size: medium;
+      font-weight: bold;
+    }
+  
+    .alert-complete {
+      color: #004085;
+      background-color: #d1ecf1;
+      border-color: #d1ecf1;
+  }
+
+
+  .tablescroll {
+   
+    height: 18.75rem;
+   
+    overflow-y: auto;
+  }
+
+   
+  

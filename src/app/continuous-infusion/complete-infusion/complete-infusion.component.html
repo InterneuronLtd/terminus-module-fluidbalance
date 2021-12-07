@@ -1,0 +1,75 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<h5>Completing Continuous Infusion</h5>
+
+<div class="alert alert-warning" role="alert">
+    <h6  style="font-size: 0.8rem;">This will mark the infusion record complete and it will not be possible to make any changes after saving.</h6>
+</div>
+
+<div class="alert alert-info"  *ngIf="!coreContinuousinfusion.ispaused && coreContinuousinfusion.totalremainingvolume >0 " role="alert">
+    <h6  style="font-size: 0.8rem;">Do you wish to validate before completing the Infusion </h6>
+    <button type="button" (click)="loadValidationscreen()"
+      class="btn btn-success btn-sm">Validate Infusion</button>
+</div>
+
+<div class="alert alert-secondary" role="alert">
+    <p style="font-size: 0.8rem;">  Volume remaining for delivery  :
+        {{coreContinuousinfusion.totalremainingvolume}} ml
+    </p>
+</div>
+
+
+<div class="alert alert-complete" style="font-size: 0.8rem;"  role="alert">
+
+    <div class="form-check">
+
+        <input type="checkbox" class="form-check-input" [(ngModel)]="coreContinuousinfusion.islineremovedoncompletion" id="lineremoved">
+        <label class="form-check-label" for="lineremoved">Confirm line is removed ?</label>
+    </div>
+
+    <!-- <div class="form-check">
+
+        <input type="checkbox" class="form-check-input" id="completInfusionenowcheck">
+        <label class="form-check-label" for="completInfusionenowcheck">Mark the Infusion as Complete?</label>
+    </div> -->
+    <div class="form-group">
+        <label for="completeNote">Notes:</label>
+        <textarea class="form-control" id="completeNote" [(ngModel)]="coreContinuousinfusion.completioncomments"
+            rows="3"></textarea>
+    </div>
+</div>
+
+<div class="card-footer">
+ 
+    <div class="row">
+        <div class="col-6">
+
+        </div>
+        <div class="col-6 text-right">
+            <div class="spinner-grow spinner-grow-sm" *ngIf="showspinner" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <button type="button" (click)="saveComplete()" [disabled]="showspinner"
+                class="btn btn-success btn-sm">Complete Infusion</button>
+           
+        </div>
+    </div>
+</div>

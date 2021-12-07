@@ -1,0 +1,69 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<h5>Add Flush</h5>
+<div class="alert alert-warning" role="alert">
+    <h6>{{timepicker |  date:'EEEE, MMMM d, y'}}</h6>
+</div>
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Flush Time</label>
+    <timepicker class="input-sm" (keydown)="false"  [showMeridian]="false" minuteStep="15" (isValid)="isValid($event)" [(ngModel)]="timepicker">
+    </timepicker>
+
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col">
+            <label for="flushVolume">Flush volume(ml):</label>
+            <input type="number" wholeNumber class="form-control form-control-sm col-6" min="0" [(ngModel)]="totalflushVolume"
+                id="flushVolume">
+        </div>
+
+        <div class="col">
+            <label for="fluidtype">Flush Type</label>
+            <select [(ngModel)]="flushtype_id" class="form-control form-control-sm" (change)="GetFlushTypeId($event.target.value)" required>
+                <option *ngFor="let type of FlushTypes" [value]="type.routetype_id"
+                    [selected]="flushtype_id==type.routetype_id">
+                    {{ type.routetype }}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="alert alert-danger" *ngIf="validationErrors!=''" role="alert" [innerHtml]="validationErrors">
+  
+</div>
+<div class="card-footer">
+
+    <div class="row">
+        <div class="col-6">
+          
+        </div>
+        <div class="col-6 text-right">
+            <button type="button" (click)="recordFlush()" [disabled]="showspinner" class="btn btn-success btn-sm">
+                <span class="spinner-border spinner-border-sm" *ngIf="showspinner" role="status" aria-hidden="true"></span>
+                Add Flush</button>
+        </div>
+    </div>
+</div>

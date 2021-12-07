@@ -1,0 +1,249 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div *ngIf="coreContinuousinfusion.ispaused">
+    <h5>Restart Infusion</h5>
+
+    <div class="alert alert-warning" role="alert">
+        <h6>{{timepicker |  date:'EEEE, MMMM d, y'}}</h6>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Restart Time:</label>
+        <timepicker class="input-sm" [showMeridian]="false" minuteStep="15" (isValid)="isValid($event)"
+            [(ngModel)]="timepicker">
+        </timepicker>
+        <span style="color: #fb0017">{{invalideDateMessage}}</span>
+    </div>
+    <div class="form-group">
+        <button type="button" (click)="reStartInfusion()" class="btn btn-success btn-sm btn-block">Restart Continuous
+            Infusion</button>
+    </div>
+</div>
+<div *ngIf="!coreContinuousinfusion.ispaused">
+    <h5>History</h5>
+</div>
+<div *ngIf="Showhistory" class="d-flex flex-column h-100">
+    <div class="card" *ngFor="let history of continuousinfusionHistory; let indexofhistory=index;"
+        style="font-size: .75rem; margin-bottom:0.1rem">
+        <div class="card-header" *ngIf="deleteableEventid===history.continuousinfusionevent_id" style="padding: 0rem">
+
+            <div class="collapse p-2" id="deleteEventcollapse">
+
+                <div class="form-group">
+                    <label>Please enter reason for removal:</label>
+                    <textarea class="form-control" [(ngModel)]="reasonForRemove" rows="2"></textarea>
+                </div>
+                <div class="float-right pb-2">
+                    <button type="button" (click)="deleteEvent(history)" class="btn btn-danger btn-sm">Remove</button>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="card-body" style="padding: 0.6rem">
+
+            <div class="row" *ngIf="history.eventtype=='removed'">
+                <div class="col-8 text-danger">
+                    <h6 class="card-title"><del>{{history.rm_actualeventtype}}</del></h6>
+                    <div class=""><del>Created Date: {{history.rm_actualdatetime |  date:'dd/MM/yy hh:mm a'}}</del>
+                    </div>
+                    <h6 class=""><del>volume: {{history.rm_actualvalue}} ml</del></h6>
+
+                </div>
+                <div class="col-4   text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="history.eventtype=='start'">
+                <div class="col-8">
+                    <h6 class="card-title">Infusion Started</h6>
+                    <div class="">Total volume: {{history.totalvolume}} ml</div>
+                    <div class="">Flow rate: {{history.flowrate }} ml/hour</div>
+                    <div class="">Pump: {{history.pumpnumber}}</div>
+                </div>
+                <div class="col-4   text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" *ngIf="history.eventtype=='pause'">
+                <div class="col-8">
+                    <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
+                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            aria-expanded="false" aria-controls="deleteEventcollapse"></i> Infusion Paused</h6>
+
+                </div>
+                <div class="col-4   text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" *ngIf="history.eventtype=='restart'">
+                <div class="col-8">
+                    <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
+                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            aria-expanded="false" aria-controls="deleteEventcollapse"></i> Infusion Restarted</h6>
+                    <div class="">Pump: {{history.pumpnumber}}</div>
+                </div>
+                <div class="col-4   text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" *ngIf="history.eventtype=='validation'">
+                <div class="col-8">
+                    <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
+                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            aria-expanded="false" aria-controls="deleteEventcollapse"></i> Infusion Validated</h6>
+                    <div class="">volume: {{history.validatedvolume}} ml</div>
+                    <div class="">Pump: {{history.pumpnumber}}</div>
+                </div>
+                <div class="col-4   text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" *ngIf="history.eventtype=='Flush'">
+                <div class="col-8">
+                    <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
+                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            aria-expanded="false" aria-controls="deleteEventcollapse"></i> Flush Added</h6>
+                    <div class="">{{history.volume}} ml ({{history.routetype }})</div>
+                </div>
+                <div class="col-4  text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="history.eventtype=='Bolus'">
+                <div class="col-8">
+                    <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
+                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            aria-expanded="false" aria-controls="deleteEventcollapse"></i> Stat Bolus Added</h6>
+                    <div class="">volume: {{history.volume}} ml</div>
+                    <div class="">Remaining volume: {{history.totalremainingvolume}} ml</div>
+                </div>
+                <div class="col-4  text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="history.eventtype=='complete'">
+                <div class="col-8">
+                    <h6 class="card-title">Infusion Completed</h6>
+                    <div class="">Total volume: {{history.totalvolume}} ml</div>
+                    <div class="">Remaining volume: {{history.totalremainingvolume}} ml</div>
+                </div>
+                <div class="col-4  text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="history.eventtype=='fluidloss'">
+                <div class="col-8">
+                    <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
+                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            aria-expanded="false" aria-controls="deleteEventcollapse"></i> Fluid loss Recorded</h6>
+                    <div class="">Loss volume: {{history.fluidloss}} ml</div>
+                    <div class="">Remaining volume: {{history.totalremainingvolume}} ml</div>
+                </div>
+                <div class="col-4  text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="history.eventtype=='flowrate'">
+                <div class="col-8">
+                    <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
+                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            aria-expanded="false" aria-controls="deleteEventcollapse"></i> Flow Rate Changed</h6>
+                    <div class="">Flow rate : {{history.flowrate}} ml/hour</div>
+
+                </div>
+                <div class="col-4  text-right font-italic">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="history.eventtype=='pumpnumber'">
+                <div class="col-8">
+                    <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
+                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            aria-expanded="false" aria-controls="deleteEventcollapse"></i> Pump Changed</h6>
+                    <div class="">Pump: {{history.pumpnumber}}</div>
+                </div>
+                <div class="col-4  text-right font-italic ">
+                    <div>
+                        <div class="">{{history.datetime |  date:'dd/MM/yy'}}</div>
+                        <div class=""> {{history.datetime |  date:'hh:mm a'}}</div>
+                        <div class="">{{history.modifiedby}}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <footer class="footer mt-auto py-3">
+        <div class="container">
+            <button type="button" class="btn btn-sm btn-secondary pull-right" (click)="CloseCIPopup()">Close</button>
+        </div>
+    </footer>
+
+</div>

@@ -1,0 +1,81 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="card-header modal-header">
+  <h5 class="modal-title" id="lblManageRoute">Add Route</h5>
+  <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col">
+      <h6>Route type: </h6>
+      <button class="btn dropdown-toggle btn-dark text-white" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span>{{ selectedRouteTypeText }}</span>
+      </button>
+      <ul class="dropdown-menu">
+        <li class="dropdown-item">
+          <a href="#" style="display:block" (click)="onRouteTypeSelection(true)">Intake</a>
+          <a href="#" style="display:block" (click)="onRouteTypeSelection(false)">Output</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col">
+      <h6>Route: </h6>
+      <button class="btn dropdown-toggle btn-dark text-white" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [ngClass]="(ioRoutes.length == 0) ? 'disabled' : ''">
+        <span>{{ selectedRouteText }}</span>
+      </button>
+      <ul class="dropdown-menu" style="height:200px;overflow-y:auto">
+        <li class="dropdown-item" *ngFor="let ioRoute of ioRoutes">
+          <a href="#" style="display:block" (click)="selectedRoute(ioRoute)">{{ ioRoute.route }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <!--purposefully added for UI-->
+      <br />
+    </div>
+  </div>
+  <div class="row" *ngIf="showErrorMessage">
+    <div class="col">
+      <div class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="row w-100">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-secondary btn-block" (click)="bsModalRef.hide()">Close</button>
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-primary btn-block" (click)="saveRoute()" [disabled]="showSpinner || showErrorMessage || (ioRoutes.length == 0) ? 'disabled' : null">
+        <span class="spinner-border spinner-border-sm" *ngIf="showSpinner" role="status" aria-hidden="true"></span> 
+        Add</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+.cursor {
+  cursor: pointer;
+}
+
+.removedRow {
+  border-bottom: 3px solid #d16e6e !important;
+  /*  border-bottom: 5px solid #d9534f !important;
+*/
+}
+
+.dvChart {
+  max-height: 1000px;
+  overflow: scroll;
+  position: relative;
+}
+
+.tbl {
+  position: relative;
+}
+
+/* table.table-bordered > tr > td{
+  border:1px solid black;
+} */
+
+.corner {
+  left: 0;
+  z-index: 1;
+}
+
+.fixedColumn {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  left: 0;
+  background: white;
+  border: 1px solid black;
+}
+
+.fixedFirstRow {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  top: 0;
+  background: white;
+  border: 1px solid black;
+}
+
+.fixedSecondRow {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  top: 45px;
+  background: white;
+  border: 1px solid black;
+}
+
+
+.graybackcolor {
+  background-color: #f6f6f6d1;
+  /*background-color: #f6f6f6*/
+}
+
+.lightgraybackcolor {
+  background-color: #fafafadb;
+}
+
+.table-bordered td,
+.table-bordered th {
+   border: 1px solid #dee2e6; 
+}
+
+
+.text-decoration-warning
+{
+  text-decoration: underline;
+  text-decoration-color: yellow ;
+}
+
+
+
+.diagonalline {
+  background-image: linear-gradient(
+    to top left,
+    #fafafadb calc(51% - 1px),
+    black,
+    #fafafadb calc(50% + 1px)
+  );
+ 
+}
+
+.runningtotalcellfontsize
+{
+  font-size: 1.6em;
+
+}
+
+.bottomalign
+  {
+  vertical-align: bottom; 
+  }
+
+
+.topleft
+{
+  vertical-align: top;
+  text-align: left;
+}
+
+.bottomright
+{
+  vertical-align: bottom;
+  text-align: right;
+}
+
+

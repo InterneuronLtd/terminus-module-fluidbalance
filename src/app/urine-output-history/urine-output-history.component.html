@@ -1,0 +1,78 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div *ngIf="appService.showUrineOutputHistory" [config]="{ show:true, backdrop: 'static'}" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
+    class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">       
+   <div class="modal-dialog modal-dialog-centered modal-xl">
+     <div class="modal-content">
+    
+   <div class="modal-body">
+    
+    <div class="card">
+      <div class="card-header">
+        <span>Urine Output History</span>
+       <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+      <div class="card-body pt-0" style="max-height:400px;overflow-y:auto;overflow-x:hidden">
+        <div class="row">
+          <table class="table table-sm">
+              <thead>
+                  <tr>
+                      <th>Time</th>
+                      <th>User</th>
+                      <th>Urine Output Recorded</th>
+                      <th>Device</th>
+                      <th>Age</th>
+                      <th>Weight</th>  
+                      <th>Estimated hourly urine output</th>   
+                      <th>Average actual hourly urine output</th>   
+                      <th>SBAR</th>                           
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let history of urineOutputHistotry" [ngStyle]="{'text-decoration' : history.isremoved === true ? 'line-through' : '','color' : history.isremoved === true ? 'red' : ''}">                                             
+                    <td>{{ history.datetime | date:'mediumDate' }} {{ history.datetime | date:'shortTime' }}</td>                     
+                      <td>{{ history.modifiedby}}</td>     
+                      <td>{{ history.volume}}ml</td>
+                      <td>{{ history.device }}</td>                     
+                      <td>{{ history.age}}</td>     
+                      <td>{{ history.personweight}}kg</td>  
+                      <td>{{ history.expectedvolume}}ml/hour</td>
+                      <td>{{ history.averagevolume}}ml/hour</td>                                            
+                      <td> <a href="javascript: void(0);" (click)= 'openSBARFormData(history.fluidbalanceescalation_id)'>{{ history.sbar}}</a> </td>   
+                  </tr>
+                  <tr *ngIf="urineOutputHistotry.length==0">
+                    <td colspan="8">
+                      <i>No Urine Output History</i>
+                    </td>
+                  </tr>
+              </tbody>
+          </table>
+          </div>                  
+              
+      </div>
+    </div>
+  
+        </div> 
+     </div>
+   </div>
+ </div>

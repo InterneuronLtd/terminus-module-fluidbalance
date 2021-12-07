@@ -1,0 +1,165 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+ 
+<div class="progress-loader" [hidden]="!showSpinner">
+  <div class="loading-spinner">
+    <div class="spinner-grow spinner-grow-sm" role="status">
+      <span class="sr-only">Loading...</span>
+   </div>
+  </div>
+</div>
+<div *ngIf="appService.showSingleIntakeForm" [config]="{ show:true, backdrop: 'static'}" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
+    class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name" data-keyboard="false" data-backdrop="static">       
+   <div class="modal-dialog modal-dialog-centered modal-lg">
+     <div class="modal-content">
+   
+   <div class="modal-body">
+     <form #intakeForm="ngForm"  (ngSubmit)="intakeForm.form.valid && onSubmit()">
+         <div class="card">   
+          <div class="card-header">
+            <span *ngIf="formType==FormType.New" class="modal-title pull-left">Add Single Volume Fluid Intake</span>
+            <span *ngIf="formType==FormType.Amend" class="modal-title pull-left">Amend Single Volume Fluid Intake</span>
+            <span *ngIf="formType==FormType.Remove" class="modal-title pull-left">Remove Single Volume Fluid Intake</span>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>           
+             <div class="card-body" style="max-height:400px;overflow-y:auto;overflow-x:hidden">
+               <fieldset [disabled]="formType==FormType.Remove">  
+                <div class="row">                    
+                  <div class="col-12 alert-warning pt-2 pb-2" *ngIf="intakeOutput.datetime">
+                    {{ intakeOutput.datetime | date:'EEEE, MMMM d, y' }}  
+                   </div>
+                 </div>                
+                <div class="row mt-2">                    
+                 <div class="col-12">
+                        <div class="form-group">
+                         <label>Observation Time:</label>
+                         <div class="row">
+                           <div class="col-6">
+                           <timepicker [showMeridian]="false"   (keydown)="false" (isValid)="adjustFluidIntakeDate($event)" [(ngModel)]="intakeOutput.datetime" #time="ngModel" name="datetime" [minuteStep]="15"  [ngClass]="{ 'is-invalid': intakeForm.submitted && !intakeOutput.datetime  }"  required></timepicker>
+                            
+                         </div>
+                         </div>
+                       </div>
+                                                
+                  </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="validDatetime()">
+                  <span>Observation time cannot be in future.</span>
+                </div>
+                <div class="row">                    
+                 <div class="col-12">
+                        <div class="form-group">
+                         <label>Type:</label>
+                         <select [(ngModel)]="intakeOutput.routetype_id" #routetype_id="ngModel" name="routetype_id" class="form-control" [ngClass]="{ 'is-invalid': intakeForm.submitted && routetype_id.invalid }" required>
+                          <option value="">Select type</option>
+                           <option *ngFor="let type of routeTypes" [value]="type.routetype_id" [selected]="intakeOutput.routetype_id==type.routetype_id"> 
+                               {{ type.routetype }}
+                           </option>
+                         </select>
+                         
+                       </div>                                               
+                 </div>
+                </div>
+                <div class="row" *ngIf="intakeOutput.routetype_id=='e99a9506-888e-nntt-bc55-0242ac130003'">                    
+                  <div class="col-12">
+                         <div class="form-group">
+                          <input type="text" name="otherroutetype" class="form-control" [(ngModel)]="intakeOutput.otherroutetype"                         
+                          #otherroutetype="ngModel"    [ngClass]="{ 'is-invalid': intakeForm.submitted && otherroutetype.invalid }" required>
+                        </div>                                               
+                  </div>
+                 </div>
+                 <div class="row">                    
+                     <div class="col-12">
+                            <div class="form-group">
+                             <label>Total Volume(ml):</label>
+                             <input type="text" pattern="^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$" name="volume" class="form-control" [(ngModel)]="intakeOutput.volume"                         
+                             #volume="ngModel"  wholeNumber  [ngClass]="{ 'is-invalid': intakeForm.submitted && volume.invalid }" (focus)="clearTextboxValue()" required>
+                           </div> 
+                                                                         
+                     </div>
+                 </div>
+                 <div class="row" *ngIf="formType==FormType.Amend">                 
+                   <div class="col-12">
+                          <div class="form-group">
+                           <label>Reason for amending observation:</label>
+                           <textarea name="reasonforamend" class="form-control" [(ngModel)]="intakeOutput.reasonforamend"                         
+                           #reasonforamend="ngModel"   [ngClass]="{ 'is-invalid': intakeForm.submitted && reasonforamend.invalid }" required></textarea>
+                         </div>                                     
+                   </div>
+                 </div>
+               </fieldset>
+                <div class="row" *ngIf="formType==FormType.Remove">                 
+                  <div class="col-12">
+                       <div class="form-group">
+                         <label>Reason for removing observation:</label>
+                         <textarea name="reasonforremoval" class="form-control" [(ngModel)]="intakeOutput.reasonforremoval"                         
+                         #reasonforremoval="ngModel"   [ngClass]="{ 'is-invalid': intakeForm.submitted && reasonforremoval.invalid }" required></textarea>
+                       </div>                                     
+                  </div>
+               </div>
+               <div class="row">
+                <div class="col-12">
+                 <div *ngIf="intakeForm.submitted">
+                   <div *ngIf="routetype_id.invalid" class="alert alert-danger">
+                        Please select route type.
+                   </div>                       
+                    <div *ngIf="volume.invalid" class="alert alert-danger">
+                        Volume must be greater that zero.
+                    </div>                     
+                 </div>  
+                </div>
+                </div>
+               </div>  
+               
+               <div class="card-footer">
+                <div class="alert alert-danger" *ngIf="validDatetime()">
+                  <span>Observation time cannot be in future.</span>
+                </div>
+                 <div class="row">
+                   <div class="col-6">
+                     <button (click)="close()" class="btn btn-sm btn-secondary btn-block" type="button">Cancel</button>                  
+                   </div>
+                   <div class="col-6 text-right">
+                       <button *ngIf="formType==FormType.New" [disabled]="showSpinner || validDatetime()"  class="btn btn-sm btn-primary btn-block" type="submit">
+                        <span class="spinner-border spinner-border-sm" *ngIf="showSpinner" role="status" aria-hidden="true"></span> 
+                        Add</button>
+                       <button *ngIf="formType==FormType.Amend" [disabled]="showSpinner || validDatetime()" class="btn btn-sm btn-primary btn-block" type="submit">
+                        <span class="spinner-border spinner-border-sm" *ngIf="showSpinner" role="status" aria-hidden="true"></span>
+                         Save</button>
+                       <button *ngIf="formType==FormType.Remove" [disabled]="showSpinner || validDatetime()" class="btn btn-sm btn-danger btn-block" type="submit">
+                        <span class="spinner-border spinner-border-sm" *ngIf="showSpinner" role="status" aria-hidden="true"></span> 
+                        Remove</button>
+                   </div>
+                 </div>
+               </div>  
+             </div>
+           
+       </form>
+       
+   </div> 
+     </div>
+   </div>
+ </div>
+ 
+ 
+  

@@ -1,0 +1,72 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="modal fade bd-example-modal-lg" *ngIf="showCIScreen"
+    [config]="{backdrop: 'static',show: true,  keyboard: false}" bsModal tabindex="-1" data-keyboard="false"
+    data-backdrop="static" style="display: block;" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 0.2rem 1rem; border-bottom-width: 0px;">
+
+                <span type="text" class="close pull-right" placement="left" (click)="closepopup()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </span>
+
+            </div>
+            <div class="modal-body">
+                <div *ngIf="continuousinfusion_id !=''">
+                    <app-infusion-menu [timeslot]="timeslot" [continuousinfusion_id]="continuousinfusion_id">
+                    </app-infusion-menu>
+
+                    <!-- <br />
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-sm btn-secondary pull-right" (click)="closepopup()">Close</button>
+                            </div>
+                        </div> 
+                    </div> -->
+
+                </div>
+
+                <div class="container" *ngIf="continuousinfusion_id==''">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <app-start-infusion [route_id]="route_id"
+                                [fluidbalancesessionroute_id]="fluidbalancesessionroute_id"
+                                (loadSummaryEvent)="showMenus($event)"></app-start-infusion>
+                            <br />
+                            <button type="button" class="btn btn-sm btn-secondary"
+                                (click)="closepopup()">Cancel</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" (click)="closepopup()">Close</button>
+              </div> -->
+        </div>
+    </div>
+</div>

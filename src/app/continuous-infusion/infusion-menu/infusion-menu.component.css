@@ -1,0 +1,8 @@
+
+
+
+:host ::ng-deep .popover{
+    max-width:21rem !important;
+    width: 20rem !important; 
+}
+

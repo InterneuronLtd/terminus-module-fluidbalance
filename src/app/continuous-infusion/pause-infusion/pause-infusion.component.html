@@ -1,0 +1,57 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<h5>Pause Infusion</h5>
+<div class="alert alert-warning" role="alert">
+    <h6>{{timepicker |  date:'EEEE, MMMM d, y'}}</h6>
+</div>
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Pause Time</label>
+    <timepicker class="input-sm" (keydown)="false"  [showMeridian]="false"  minuteStep="15" [readonlyInput]="true" [(ngModel)]="timepicker">
+    </timepicker>
+
+
+    <div class="alert alert-info"  *ngIf="!coreContinuousinfusion.ispaused && coreContinuousinfusion.totalremainingvolume >0 " role="alert">
+        <h6  style="font-size: 0.8rem;">The pause infusion is only effective from the last validated time. </h6>
+        <h6  style="font-size: 0.8rem;">If you wish to change the time please click the link below to validate </h6>
+        <button type="button" (click)="loadValidationscreen()"
+          class="btn btn-success btn-sm">Validate Infusion</button>
+    </div>
+<!-- 
+    <div class="italicClass">(The pause infusion is only effective from the last validated time. <a style="color: #2a93ba;" (click)="loadValidationscreen()"
+       >Please click here to validate</a> if you wish to change time.)</div> -->
+    
+</div>
+
+<div class="form-group">
+    <label>Enter Reason for pause</label>
+    <textarea class="form-control" [(ngModel)]="resionForPause" rows="3"></textarea>
+</div>
+
+<div class="alert-danger" *ngIf="pauseInfusionError!=''" role="alert" [innerHtml]="pauseInfusionError"></div>
+
+
+<div class="card">
+    <div class="card-header">
+        <button type="button" (click)="pauseInfusion()" class="btn btn-success btn-sm float-right ">Pause Infusion</button>
+    </div>
+
+</div>

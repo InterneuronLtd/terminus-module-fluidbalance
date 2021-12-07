@@ -1,0 +1,53 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="card-header modal-header">
+  <h5 class="modal-title" id="lblRecordWeight">Record Weight</h5>
+  <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+	<div class="alert alert-light border border-secondary">
+	  <h6 class="text-dark">Record weight for estimated hourly urine output calculation</h6>
+	  <div class="row">
+		<div class="form-group col-md-4">
+		  <label class="text-dark">Weight (kg):</label>
+		  <input type="number" (keyup)="hourlyUrineOutputOnWeightChange()" class="form-control" [(ngModel)]="weight" [ngClass]="(errorMessage!='')?'is-invalid':''" />
+		</div>
+	  </div>
+	  <div class="alert alert-secondary">
+		<h6>Patient's age: {{ age }} years</h6>
+		<h6>Hourly urine output calculation: {{ expectedUrineOutputPerKg }} ml/kg</h6>
+		<h6>Hourly urine output: {{ expectedHourlyUrineOutput }} ml/hour</h6>
+	  </div>
+	</div>
+	<div class="alert alert-danger" *ngIf="errorMessage!=''" role="alert" [innerHtml]="errorMessage"></div>
+</div>
+<div class="modal-footer">
+  <div class="row w-100">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-secondary btn-block" (click)="bsModalRef.hide()">Close</button>
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-primary btn-block" (click)="saveWeightObs()">Save</button>
+    </div>
+  </div>
+</div>

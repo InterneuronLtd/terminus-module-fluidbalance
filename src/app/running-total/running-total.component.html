@@ -1,0 +1,88 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div>  
+  <div *ngIf="isCurrentDaySession">
+    <div *ngIf="urineCatheterFlowrate==0">
+      <div class="row">
+        <div class="col-12 form-inline">
+          <span class="text-muted">Minimal hourly urine output: {{expectedHourlyUrineOutput}} ml/hour</span>
+          <div class="ml-auto p-1">
+            <a class="pr-2" href="javascript: void(0);" (click)='openUrineHistory()'><i class="fa fa-history" style="font-size:20px"></i></a>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="openRecordWeightModal()">Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="urineCatheterFlowrate!=0">     
+        <div class="row">
+          <div class="col-12 form-inline">
+            <span class="text-muted">Minimal hourly urine output: {{expectedHourlyUrineOutput}} ml/hour</span>
+            <div class="ml-auto">
+              <a class="pr-2" href="javascript: void(0);" (click)='openUrineHistory()'><i class="fa fa-history" style="font-size:20px"></i></a>
+              <button type="button" class="btn btn-sm btn-secondary" (click)="openRecordWeightModal()">Edit</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="text-muted">Continuous bladder irrigation flow rate: {{urineCatheterFlowrate}} ml/hour</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <span class="text-muted">Total Estimated hourly urine output: {{expectedHourlyUrineOutputWithContinuousInfusion}} ml/hour</span>
+          </div>
+        </div>
+      </div>
+      
+  </div>
+  <div *ngIf="!isCurrentDaySession">
+    <div class="row">
+      <div class="col-12 form-inline">
+        <span class="text-muted">Calculated hourly urine output based on weight and age: {{expectedHourlyUrineOutput}} ml/hour</span>
+        <div class="ml-auto">
+          <a class="pr-2" href="javascript: void(0);" (click)='openUrineHistory()'><i class="fa fa-history" style="font-size:20px"></i></a>
+          <!-- <button type="button" *ngIf="urineCatheterFlowrate!=0" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#recordWeight">Edit</button> -->
+        </div>
+      </div>
+    </div>
+    <div *ngIf="urineCatheterFlowrate!=0">
+      <div class="row">
+        <div class="col-12">
+          <span class="text-muted"><i>*Continuous bladder irrigation flow rate based on active flow rate for the selected time slot for retrospective entries</i></span>
+        </div>
+      </div>
+    </div>    
+  </div>
+  
+  <div class="border border-dark rounded">
+    <div class="form-inline p-1">
+      <span class="text-dark">Running Intake Total: {{ intakeRunningTotal }} ml</span>
+    </div>
+    <div class="form-inline p-1">
+      <span class="text-dark">Running Output Total: {{ outputRunningTotal }} ml</span>
+    </div>
+    <hr class="border border-dark" style="margin: 0px;" />
+    <div class="form-inline p-1">
+      <span class="text-dark">Running Fluid Balance Total: {{ intakeRunningTotal - outputRunningTotal }} ml</span>
+    </div>
+  </div>
+</div>

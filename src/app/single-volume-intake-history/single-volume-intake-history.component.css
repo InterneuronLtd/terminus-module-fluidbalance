@@ -1,0 +1,30 @@
+.modal-body {     
+    padding:0px!important;
+  }
+  .card {
+     margin-bottom: 0px;
+}
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+  height: 7px;
+  -webkit-overflow-scrolling: auto;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+tbody {
+    display: block;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  
+   thead,
+  tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }

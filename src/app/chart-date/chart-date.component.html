@@ -1,0 +1,49 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="form-inline">
+  <div class="form-group">
+    <h4>
+      {{ displayDateText | date:'EEEE, d MMMM yyyy' }}
+    </h4>
+  </div>
+  <div class="form-group">
+    <input type="text" (bsValueChange)="onValueChange($event)" [(ngModel)]="selectedDate" (onHidden)="onDatePickerClose($event)" (onShown)="onDatePickerOpen($event)"
+      [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false , containerClass: 'theme-default', adaptivePosition: true }"
+      class="form-control" bsDatepicker (keydown)="allowedKeys($event);" [minDate]="minDate" [maxDate]="maxDate" style="width: 110px;" />
+  </div>
+  <div class="form-group">
+    <button type="button" (click)="onPreviousClick()" class="btn btn-sm btn-secondary" [disabled]="disablePreviousButton">Previous</button>
+  </div>
+  <div class="form-group">
+    <button type="button" style="text-align: center;" (click)="onTodayClick()" class="btn btn-sm btn-secondary">Today</button>
+  </div>
+  <div class="form-group">
+    <button type="button" [disabled]="disableNextButton" style="text-align: right;" (click)="onNextClick()" class="btn btn-sm btn-secondary">Next</button>
+  </div>
+</div>
+<div class="form-group mt-2" style="max-height: 50px; overflow-y:scroll" *ngIf="appService.IsCurrentEncounter()">
+  <ul>
+    <li class="text-wrap text-danger" *ngFor="let d of notcompleted" >
+      <strong>{{d.routetype}} infusion due to complete on {{ d.completiondatetime | date:'dd/MM' }} at {{ d.completiondatetime | date:'HH:mm' }} has not been recorded as completed.</strong>
+    </li>
+    
+  </ul>
+</div>

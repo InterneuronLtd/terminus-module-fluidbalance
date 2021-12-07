@@ -1,0 +1,239 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<h5>Completing Continuous Infusion</h5>
+
+<div class="alert alert-warning" role="alert">
+    <h6 style="font-size: 0.8rem;">This will mark the infusion record complete and it will not be possible to make any
+        changes after saving.</h6>
+    <h6 style="font-size: 0.8rem;">This will validate any previously unvalidated records up to the selected completion
+        time</h6>
+</div>
+
+<div class="form-group">
+    <label>Completion Time</label>
+    <div class="alert alert-warning" role="alert">
+        <h6>{{timepicker | date:'EEEE, MMMM d, y'}}</h6>
+    </div>
+
+    <!-- <label *ngIf="changeFlowRate">Time flow rate changed:</label> -->
+    <timepicker class="input-sm" (keydown)="false" [showMeridian]="false" minuteStep="15" (isValid)="isValid($event)"
+        [(ngModel)]="timepicker">
+    </timepicker>
+    <span style="color: #fb0017">{{invalideDateMessage}}</span>
+</div>
+
+<div class="alert alert-danger" role="alert" *ngIf="!isLastDayOfInfusion">
+    <div class="font-weight-bold">Warning</div>
+    <h6 style="font-size: 0.8rem;">
+        <br>
+        This infusion is due to complete on another chart ({{ sessionDateForWarning | date:'EEEE, MMMM d, y' }}).
+         <br> <br>
+        If you wish to complete the infusion with full delivery at the calculated completion time please select the
+        corresponding chart.
+         <br> <br>
+        Alternatively, select “Yes” below to complete with full delivery at the selected time on this chart.
+    </h6>
+</div>
+
+<div class="form-group">
+    <label>Has all the volume been administered?</label>
+    <br>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" (change)="setAmoutDeliveredLastValidation()" type="radio"
+            name="inlineRadioOptions" id="inlineRadio1" [(ngModel)]="hasAllVolumeAdministered"
+            [checked]="hasAllVolumeAdministered" [value]="true">
+        <label class="form-check-label" for="inlineRadio1">Yes</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" (change)="setAmoutDeliveredLastValidation()" type="radio"
+            name="inlineRadioOptions" id="inlineRadio2" [(ngModel)]="hasAllVolumeAdministered"
+            [checked]="!hasAllVolumeAdministered" [value]="false">
+        <label class="form-check-label" for="inlineRadio2">No</label>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="totalValumeAdministered">Total volume administered(ml)</label>
+    <input type="text" [disabled]="hasAllVolumeAdministered"
+        (keyup)="setAmoutDeliveredLastValidationOnChangeVolumeAdministered()" class="form-control"
+        id="totalVolumeAdministeredInput" [(ngModel)]="totalVolumeAdministeredInput">
+</div>
+
+<div class="form-group" *ngIf="totalVolumeAdministeredInput>totalVolumeAdministered">
+    <span style="color: #fb0017">Total volume administered cannot be greater than the initial infusion volume minus any
+        recorded fluid loss {{totalVolumeAdministered}}ml.</span>
+</div>
+<div class="form-group" *ngIf="amountDeliveredLastValidation<0">
+    <span style="color: #fb0017">Total volume administered cannot be less than the amount already validated
+        ({{coreContinuousinfusion.totaladministeredvolume}}ml).</span>
+</div>
+
+<div class="alert alert-success" *ngIf="coreContinuousinfusion.totalremainingvolume==totalVolumeAdministeredInput">
+    <span>Calculations indicate this infusion has completed. Please continue to complete infusion.</span>
+</div>
+<div>
+
+
+
+</div>
+<div class="form-group">
+    <label for="amountDeliveredLastValidation" class="text-muted">Amount delivered since last validation(ml)</label>
+    <input type="text" class="form-control" disabled id="amountDeliveredLastValidation"
+        [(ngModel)]="amountDeliveredLastValidation">
+</div>
+<div class="form-group">
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" style="padding: 0rem 0rem;">
+                <h5 class="mb-0">
+                    <button class="btn btn-sm btn-link"
+                        [disabled]="coreContinuousinfusion.totalremainingvolume-changedvolume < 0"
+                        (click)="validatesummeryClick()">
+                        Validation Summary
+                    </button>
+                </h5>
+            </div>
+
+            <div *ngIf="showvalidationtable">
+                <div class="card-body tablescroll">
+                    <div>
+
+                        <div class="alert alert-danger" *ngIf="isValidTimePicker" role="alert">
+                            <h6>Please select a valid completion time</h6>
+
+                        </div>
+                        <div class="alert alert-danger"
+                            *ngIf="totalVolumeAdministeredInput>totalVolumeAdministered || amountDeliveredLastValidation<0"
+                            role="alert">
+                            <h6>Please enter a valid volume</h6>
+
+                        </div>
+                        <table class="table table-sm">
+                            <thead>
+                                <th scope="col">Start Date/Time</th>
+                                <th scope="col">End Date/Time</th>
+                                <th scope="col" class="text-center">{{routename }}</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let detail of summaryDetails">
+                                    <td>{{detail.starttime | date:'dd/MM/yy, hh:mm a'}}</td>
+                                    <td>{{detail.adddate | date:'dd/MM/yy, hh:mm a'}}</td>
+                                    <td class="text-center">{{detail.hourlySlot }} ml</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="alert alert-secondary" role="alert">
+                            <h6 class="font-italic" style="font-size: 0.8rem;">Last validated:
+                                {{latestEvent.datetime | date:' HH:mm , EEEE, MMMM d, y'}} </h6>
+                            <h6 class="font-italic" style="font-size: 0.8rem;">Last validated volume remaining:
+                                {{coreContinuousinfusion.totalremainingvolume}} ml</h6>
+                            <h6 class="font-italic" style="font-size: 0.8rem;">Time elapsed since last validation:
+                                {{totaltimeCalculated}}
+                            </h6>
+                            <h6 class="font-italic" style="font-size: 0.8rem;">Volume validating: {{validatingVolume}}
+                                ml</h6>
+                            <!-- <h6 class="font-italic" style="font-size: 0.8rem;">Calculated flow rate:
+                                {{validatingflowrate}} ml/hour
+                            </h6> -->
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- <div class="alert alert-info"  *ngIf="!coreContinuousinfusion.ispaused && coreContinuousinfusion.totalremainingvolume >0 " role="alert">
+    <h6  style="font-size: 0.8rem;">Do you wish to validate before completing the Infusion </h6>
+    <button type="button" (click)="loadValidationscreen()"
+      class="btn btn-success btn-sm">Validate Infusion</button>
+</div> -->
+
+<!-- <div class="alert alert-secondary" role="alert">
+    <p style="font-size: 0.8rem;">  Volume remaining for delivery  :
+        {{coreContinuousinfusion.totalremainingvolume}} ml
+    </p>
+</div> -->
+
+
+<div class="alert alert-info" style="font-size: 0.8rem;" role="alert">
+
+    <div class="form-check">
+
+        <input type="checkbox" class="form-check-input" [(ngModel)]="coreContinuousinfusion.islineremovedoncompletion"
+            id="lineremoved">
+        <label class="form-check-label" for="lineremoved">Confirm line is removed ?</label>
+    </div>
+
+    <div class="form-check">
+
+        <input type="checkbox" [disabled]="true" class="form-check-input" id="completInfusionenowcheck"
+            [(ngModel)]="completInfusionenow">
+        <label class="form-check-label" for="completInfusionenowcheck">Mark the Infusion as Complete?</label>
+    </div>
+    <div class="form-group">
+        <label for="completeNote">Notes:</label>
+        <textarea autoGrow class="form-control" id="completeNote"
+            [(ngModel)]="coreContinuousinfusion.completioncomments" rows="3"></textarea>
+    </div>
+</div>
+
+<div class="card-footer">
+    <div class="alert alert-danger"
+        *ngIf="totalVolumeAdministeredInput>totalVolumeAdministered || amountDeliveredLastValidation<0 || invalideDateMessage">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group" *ngIf="invalideDateMessage">
+                    <span style="color: #fb0017">{{invalideDateMessage}}</span>
+                </div>
+                <div class="form-group" *ngIf="totalVolumeAdministeredInput>totalVolumeAdministered">
+                    <span style="color: #fb0017">Total volume administered cannot be greater than the initial infusion
+                        volume minus any recorded fluid loss {{totalVolumeAdministered}}ml.</span>
+                </div>
+                <div class="form-group" *ngIf="amountDeliveredLastValidation<0">
+                    <span style="color: #fb0017">Total volume administered cannot be less than the amount already
+                        validated ({{coreContinuousinfusion.totaladministeredvolume}}ml).</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-6">
+
+        </div>
+        <div class="col-6 text-right">
+            <div class="spinner-grow spinner-grow-sm" *ngIf="showspinner" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <button type="button" (click)="saveValidateClick()"
+                [disabled]="showspinner || totalVolumeAdministeredInput>totalVolumeAdministered || amountDeliveredLastValidation<0 || invalideDateMessage"
+                class="btn btn-success btn-sm">Complete Infusion</button>
+
+        </div>
+    </div>
+
+
+
+</div>

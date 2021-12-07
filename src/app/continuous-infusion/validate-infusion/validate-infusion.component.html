@@ -1,0 +1,203 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<h5 *ngIf="!changeFlowRate">Validate Continuous Infusion</h5>
+<h5 *ngIf="changeFlowRate">Change Flow Rate</h5>
+
+<div class="alert alert-warning" role="alert">
+    <h6>{{timepicker |  date:'EEEE, MMMM d, y'}}</h6>
+</div>
+
+<div class="form-group">
+    <label *ngIf="!changeFlowRate">Validation Time:</label>
+    <label *ngIf="changeFlowRate">Time flow rate changed:</label>
+    <timepicker class="input-sm" (keydown)="false"  [showMeridian]="false" minuteStep="15" (isValid)="isValid($event)"
+        [(ngModel)]="timepicker">
+    </timepicker>
+    <span style="color: #fb0017">{{invalideDateMessage}}</span>
+</div>
+<div class="form-group" *ngIf="changeFlowRate">
+    <label for="volume">New flow rate (ml/hour):</label>
+    <input type="number" class="form-control form-control-sm col-3" [(ngModel)]="newFlowRateVolume">
+</div>
+
+
+<!--  only change flow rate div///// -->
+<div *ngIf="!sameTimechangeFlowRateOnly">
+    <!--  only change flow rate div///// -->
+    <div class="alert alert-danger" *ngIf="timeexcitedMessage !=''" style="padding: 0rem 0rem;" role="alert">
+        <span>{{timeexcitedMessage}}</span>
+    </div>
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" style="padding: 0rem 0rem;">
+                <h5 class="mb-0">
+                    <button class="btn btn-sm btn-link"
+                        [disabled]="coreContinuousinfusion.totalremainingvolume-changedvolume < 0"
+                        (click)="validatesummeryClick()">
+                        Validation Summary
+                    </button>
+                </h5>
+            </div>
+
+            <div *ngIf="showvalidationtable">
+                <div class="card-body tablescroll">
+                    <div>
+
+                        <div class="alert alert-danger" *ngIf="summaryDetails.length == 0" role="alert">
+                            <h6>No records.</h6>
+
+                        </div>
+                        <table class="table table-sm">
+                            <thead>
+                                <th scope="col">Start Date/Time</th>
+                                <th scope="col">End Date/Time</th>
+                                <th scope="col" class="text-center">{{routename }}</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let detail of summaryDetails">
+                                    <td>{{detail.starttime |  date:'dd/MM/yy,  hh:mm a'}}</td>
+                                    <td>{{detail.adddate |  date:'dd/MM/yy,  hh:mm a'}}</td>
+                                    <td class="text-center">{{detail.hourlySlot }} ml</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="alert alert-secondary" role="alert">
+                            <h6 class="font-italic" style="font-size: 0.8rem;">Last validated:
+                                {{latestEvent.datetime  |  date:' HH:mm , EEEE, MMMM d, y'}} </h6>
+                            <h6 class="font-italic" style="font-size: 0.8rem;">Last validated volume remaining:
+                                {{coreContinuousinfusion.totalremainingvolume}} ml</h6>
+                            <h6 class="font-italic" style="font-size: 0.8rem;">Time elapsed since last validation:
+                                {{totaltimeCalculated}}
+                            </h6>
+                            <h6 class="font-italic" style="font-size: 0.8rem;">Volume validating: {{validatingVolume}}
+                                ml</h6>
+                            <!-- <h6 class="font-italic" style="font-size: 0.8rem;">Calculated flow rate:
+                                {{validatingflowrate}} ml/hour
+                            </h6> -->
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="alert " role="alert">
+        <p> Calculated Volume Administered {{actualvolume}} (ml):
+        </p>
+        <p class="italicClass"> (based on flow rate and time elapsed since last validated/started/restarted )
+        </p>
+    </div>
+    <div class="form-check">
+
+        <input type="checkbox" class="form-check-input" (change)="changevolumeChecked()"
+            [(ngModel)]="updatethecalculatedvolume" id="changevolume">
+        <label class="form-check-label" for="changevolume">Do you wish to update the calculated volume
+            administered ?</label>
+
+        <div class="form-group" *ngIf="updatethecalculatedvolume">
+            <label for="volume">Actual Volume administered volume (ml):</label>
+            <input type="number" (keyup)="volumeChange()" class="form-control form-control-sm col-3"
+                [(ngModel)]="changedvolume">
+        </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="coreContinuousinfusion.totalremainingvolume-changedvolume < 0" role="alert">
+        <p style="font-size: 0.8rem;">The Actual Volume Administered cannot be greater than
+            {{coreContinuousinfusion.totalremainingvolume}} ml
+        </p>
+    </div>
+    <div class="alert alert-secondary" role="alert">
+        <p style="font-size: 0.8rem;"> calculated volume remaining for delivery after the validation :
+            {{coreContinuousinfusion.totalremainingvolume-administeredvolume}} ml
+        </p>
+    </div>
+
+    <div class="custom-control custom-checkbox">
+
+        <input type="checkbox" class="form-check-input" [(ngModel)]="checktheline" id="completInfusionenowcheck">
+        <label class="form-check-label" for="completInfusionenowcheck">Have you checked the line?</label>
+    </div>
+
+
+
+
+    <div class="alert alert-complete" style="font-size: 0.8rem;" *ngIf="infusionComplete" role="alert">
+
+        <h6> Calculation indicate that the infusion has completed. You can mark the infusion as complete.</h6>
+
+        <div class="alert alert-danger" role="alert">
+            If the section is completed, it will mark the infusion record complete and it will not be posible to make
+            any
+            changes after saving.
+        </div>
+
+        <div class="form-check">
+
+            <input type="checkbox" class="form-check-input" [(ngModel)]="isLineremoved" id="lineremoved">
+            <label class="form-check-label" for="lineremoved">Confirm line is removed ?</label>
+        </div>
+
+        <div class="form-check">
+
+            <input type="checkbox" class="form-check-input" [(ngModel)]="completInfusionenow"
+                id="completInfusionenowcheck">
+            <label class="form-check-label" for="completInfusionenowcheck">Mark the Infusion as Complete?</label>
+        </div>
+        <div class="form-group">
+            <label for="completeNote">Notes:</label>
+            <textarea class="form-control" id="completeNote" [(ngModel)]="coreContinuousinfusion.completioncomments"
+                rows="3"></textarea>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <div class="alert alert-danger" *ngIf="newFlowRateerror!=''" role="alert" [innerHtml]="newFlowRateerror">
+        </div>
+        <div class="row">
+
+            <div class="col-12 text-right">
+                <div class="spinner-grow spinner-grow-sm" *ngIf="showspinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <button type="button" (click)="saveValidateClick()" [disabled]="showspinner"
+                    *ngIf="!changeFlowRate && summaryDetails.length != 0" class="btn btn-success btn-sm">Validate
+                    Infusion</button>
+                <button type="button" (click)="saveValidateClick()" [disabled]="showspinner" *ngIf="changeFlowRate"
+                    class="btn btn-success btn-sm">Validate & Change Flow
+                    Rate</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="sameTimechangeFlowRateOnly">
+    <div class="col-6">
+        <div class="spinner-grow spinner-grow-sm" *ngIf="showspinner" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="col-6 text-right">
+        <button type="button" (click)="saveValidateClick()" [disabled]="showspinner" *ngIf="changeFlowRate"
+            [disabled]="showspinner" class="btn btn-success btn-sm">Change Flow
+            Rate</button>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<h5>Record Fluid Loss</h5>
+<div class="alert alert-secondary" role="alert">
+    <p class="italicClass"> N.B Fluid loss is subtracted from the total volume set when starting the infusion record.
+    </p>
+</div>
+<div class="alert alert-warning" role="alert">
+    <h6>{{timepicker |  date:'EEEE, MMMM d, y'}}</h6>
+</div>
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Time fluid loss recorded:</label>
+    <timepicker class="input-sm" (keydown)="false"  [showMeridian]="false" minuteStep="15" (isValid)="isValid($event)" [(ngModel)]="timepicker">
+    </timepicker>
+
+</div>
+<div class="form-group">
+    <label for="Fluidvolume">Fluid Loss Volume (ml):</label>
+    <input type="number"  class="form-control form-control-sm col-3" min="0" [max]="remainingfluid"
+        [(ngModel)]="coreContinuousinfusionfluidloss.volume" (input)="fluioLostchange()" id="Fluidvolume">
+</div>
+<div class="alert alert-secondary" role="alert">
+    <p class="totalClass"> Calculated volume remaining for delivery after this fluid loss entry
+        :{{coreContinuousinfusion.totalremainingvolume - coreContinuousinfusionfluidloss.volume}} ml</p>
+</div>
+<div class="form-group">
+    <label for="Note">Fluid Loss Notes</label>
+    <textarea class="form-control" [(ngModel)]="coreContinuousinfusionfluidloss.note" id="Note" rows="3"></textarea>
+</div>
+<!-- ///////////////////////////////////////////////////////////////////////////////////// -->
+<div class="alert alert-complete" *ngIf="infusionComplete" role="alert">
+
+    <h6> Calculation indicate that the infusion has completed. You can mark the infusion as complete.</h6>
+
+    <div class="alert alert-danger" role="alert">
+        If the section is completed, it will mark the infusion record complete and it will not be posible to make any
+        changes after saving.
+    </div>
+
+    <div class="form-check">
+
+        <input type="checkbox" class="form-check-input" [(ngModel)]= "isLineremoved" id="lineremoved">
+        <label class="form-check-label" for="lineremoved">Confirm line is removed ?</label>
+    </div>
+
+    <div class="form-check">
+
+        <input type="checkbox" class="form-check-input"  [(ngModel)]= "completInfusionenow" id="completInfusionenowcheck">
+        <label class="form-check-label" for="completInfusionenowcheck">Mark the Infusion as Complete?</label>
+    </div>
+    <div class="form-group">
+        <label for="completeNote">Notes:</label>
+        <textarea class="form-control" id="completeNote" [(ngModel)]="coreContinuousinfusion.completioncomments" rows="3"></textarea>
+    </div>
+</div>
+<div class="alert alert-danger" *ngIf="validationErrors!=''" role="alert" [innerHtml]="validationErrors">
+  
+</div>
+<div *ngIf="completInfusionenow">
+    <button type="button"  (click)="recordFluidLoss()" class="btn btn-success btn-sm float-right ">Record fluid loss & Complete Infusion</button>
+</div>
+<div *ngIf="!completInfusionenow">
+    <button type="button" (click)="recordFluidLoss()"  class="btn btn-success btn-sm float-right ">Record fluid loss</button>
+</div>

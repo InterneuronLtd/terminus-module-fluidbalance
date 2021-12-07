@@ -1,0 +1,47 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<h5>Change Pump</h5>
+<div class="alert alert-warning" role="alert">
+    <h6>{{timepicker |  date:'EEEE, MMMM d, y'}}</h6>
+</div>
+
+<div class="form-group">
+    <label for="exampleInputEmail1">Pump Change Time</label>
+    <timepicker class="input-sm" (keydown)="false"  [showMeridian]="false" minuteStep="15" (isValid)="isValid($event)"
+        [(ngModel)]="timepicker">
+    </timepicker>
+
+</div>
+
+<div class="form-group">
+    <label for="exampleInputPassword1">New Pump Number</label>
+    <input type="text" class="form-control col-6" [(ngModel)]="coreContinuousinfusion.pumpnumber">
+</div>
+
+<div class="alert alert-danger" *ngIf="errormessage!=''" role="alert" [innerHtml]="errormessage">
+
+</div>
+<div class="card">
+    <div class="card-header">
+        <button type="button" (click)="pumChange()" class="btn btn-success btn-sm float-right ">Change Pump</button>
+    </div>
+
+</div>

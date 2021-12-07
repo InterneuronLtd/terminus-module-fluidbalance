@@ -1,0 +1,99 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<h5>Start Infusion</h5>
+
+<div class="alert alert-warning" role="alert">
+  <h6>{{timepicker |  date:'EEEE, MMMM d, y'}}</h6>
+</div>
+
+<div class="form-group">
+  <label for="exampleInputEmail1">Start Time</label>
+  <timepicker class="input-sm" (keydown)="false"  [showMeridian]="false" minuteStep="15" (isValid)="isValid($event)" [(ngModel)]="timepicker">
+  </timepicker>
+
+</div>
+<div class="alert alert-danger" *ngIf="validDatetime()">
+  <span>Infusion start time cannot be in future.</span>
+</div>
+  <div class="form-group">
+    <label for="fluidtype">Type</label>
+    <select [(ngModel)]="coreContinuousinfusion.routetype_id" #routetype_id="ngModel" id="fluidtype"
+      class="form-control form-control-sm col-6" required>
+      <option value="">Select type</option>
+      <option *ngFor="let type of routeTypes" [value]="type.routetype_id">
+        {{ type.routetype }}
+      </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="Totalvolume">Total Volume (ml):</label>
+    <input type="number" wholeNumber class="form-control form-control-sm col-3" [(ngModel)]="coreContinuousinfusion.totalvolume">
+  </div>
+  <div class="form-group">
+    <label for="Totalvolume">Flow Rate (ml/hour):</label>
+    <input type="number" wholeNumber class="form-control form-control-sm col-3" [(ngModel)]="coreContinuousinfusion.flowrate">
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="flushVolume">Flush Volume (ml):</label>
+        <input type="number" wholeNumber class="form-control form-control-sm col-6" min="0"  [(ngModel)]="totalflushVolume"
+          id="flushVolume">
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="fluidtype">Flush Type</label>
+        <select [(ngModel)]="flushtype_id" class="form-control form-control-sm" required>
+          <option value="0">Please select flush type</option>
+            
+          <option *ngFor="let type of FlushTypes" [value]="type.routetype_id"
+            [selected]="flushtype_id==type.routetype_id">
+            {{ type.routetype }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="bolusvolume">Bolus Volume (ml):</label>
+    <input type="number" wholeNumber class="form-control form-control-sm col-3" min="0" [(ngModel)]="bolus" id="bolusvolume">
+  </div>
+  <div class="form-group">
+    <label for="pumpnumber">Pump Number</label>
+    <input type="text" class="form-control form-control-sm col-8" [(ngModel)]="coreContinuousinfusion.pumpnumber"
+      id="pumpnumber">
+  </div>
+  <div class="alert alert-danger" *ngIf="validationErrors!=''" role="alert" [innerHtml]="validationErrors">
+  
+  </div>
+  <div class="alert alert-danger" *ngIf="validDatetime()">
+    <span>Infusion start time cannot be in future.</span>
+  </div>
+  <div class="form-group">
+    <button type="button" (click)="startInfusion()"  [disabled]="showspinner || validDatetime()" class="btn btn-success btn-sm btn-block">
+      <span class="spinner-border spinner-border-sm" *ngIf="showspinner" role="status" aria-hidden="true"></span>
+   
+      Start Continuous
+      Infusion</button>
+  </div>

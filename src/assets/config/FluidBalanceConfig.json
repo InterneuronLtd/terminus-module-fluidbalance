@@ -1,0 +1,13 @@
+{
+  "uris": {
+    "baseuri": "SYNAPSE_DYNAMIC_URI",
+    "carerecordbaseuri": "CARERECORD_URI/FluidBalance"
+  },
+  "enablelogging": true,
+  "appsettings": {
+    "sessionStartTime": 8,
+    "maxIntakeRoutes": 6,
+    "maxOutputRoutes": 6
+  },
+  "prodbuild": true
+}

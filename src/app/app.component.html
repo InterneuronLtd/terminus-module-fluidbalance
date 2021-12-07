@@ -1,0 +1,89 @@
+<!--BEGIN LICENSE BLOCK--> 
+<!--Interneuron Terminus
+
+Copyright(C) 2021  Interneuron CIC
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. -->
+<!--END LICENSE BLOCK--> 
+<div class="container-fluid">
+  <div class="row p-2">
+    <div class="col-7">
+      <div class="form-inline">
+        <div class="form-group mt-2">
+          <app-encounter></app-encounter>
+        </div>
+        <div class="form-group mt-2">
+          <div *ngIf="appService.FluidBalanceStatus">
+            <div *ngIf="appService.FluidBalanceSession && appService.FluidBalanceSession.fluidbalancesession_id">
+              <app-stop-fluid-balance-monitoring></app-stop-fluid-balance-monitoring>
+            </div>
+          </div>
+        </div>
+        <div class="form-group mt-2">
+          <app-fluid-balance-monitoring></app-fluid-balance-monitoring>
+        </div>
+        
+      </div>
+      <div class="form-group mt-2">
+        <div *ngIf="(appService.isWeightCaptured && appService.FluidBalanceStatus) || (this.appService.encounter && !this.appService.isCurrentEncouner)">
+          <app-chart-date></app-chart-date>
+        </div>
+      </div>
+    </div>
+    <div class="col-5">
+      <div *ngIf="(appService.isWeightCaptured && appService.FluidBalanceStatus) || (this.appService.encounter && !this.appService.isCurrentEncouner)">
+        <div *ngIf="appService.FluidBalanceSession && appService.FluidBalanceSession.fluidbalancesession_id" class="float-right mt-2">
+          <app-running-total></app-running-total>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row p-2">
+    <div class="col">
+      <app-fluid-balance-monitoring></app-fluid-balance-monitoring>
+    </div>
+  </div> -->
+  <!-- <div class="row p-2">
+    <div class="col">
+      <div *ngIf="appService.FluidBalanceStatus">
+        <app-chart-date></app-chart-date>
+      </div>
+    </div>
+  </div> -->
+  <!-- <div class="row p-2">
+    <div class="col">
+      <div *ngIf="appService.FluidBalanceStatus">
+        <div *ngIf="appService.FluidBalanceSession && appService.FluidBalanceSession.fluidbalancesession_id" class="float-right">
+          <app-running-total></app-running-total>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="row p-2">
+    <div class="col">
+      <div *ngIf="(appService.isWeightCaptured && appService.FluidBalanceStatus) || !appService.isCurrentEncouner" >
+        <app-fluidbalance-chart></app-fluidbalance-chart>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-continuous-infusion></app-continuous-infusion>
+<app-single-volume-fluid-intake></app-single-volume-fluid-intake>
+<app-single-volume-fluid-output></app-single-volume-fluid-output>
+
+<app-timeslot-options></app-timeslot-options>
+<app-urine-output-history></app-urine-output-history>
