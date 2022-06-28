@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Encounter } from '../models/encounter.model';
 import { Subscription } from 'rxjs';
-import * as jwt_decode from "jwt-decode";
+import jwt_decode from "jwt-decode";
 import { action } from '../models/Filter.model';
 import { ConfigModel } from '../models/config.model';
 import * as moment from 'moment';

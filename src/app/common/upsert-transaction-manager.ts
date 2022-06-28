@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -20,7 +20,9 @@
 //END LICENSE BLOCK 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class UpsertTransactionManager {
     entities: UpsertEntity[] = new Array<UpsertEntity>();
     baseApiUrl: string;

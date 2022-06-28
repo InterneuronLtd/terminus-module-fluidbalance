@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@ import { filters, filterParams, filterparam, filter, selectstatement, orderbysta
 import { Fluidbalancesession, Fluidbalancesessionroute, Fluidbalanceintakeoutput, Continuousinfusion, Fluidbalancesessionroutesessions } from '../models/fluidbalance.model';
 import { AppService } from '../services/app.service';
 import { ApirequestService } from '../services/apirequest.service';
-import { isArray } from 'util';
 
 
 export class FluidbalanceHelper {
@@ -298,7 +297,7 @@ export class FluidbalanceHelper {
         this.appService.logToConsole(response);
         response = JSON.parse(response);
         if (response) {
-          if (isArray(response) && response.length !== 0)
+          if (Array.isArray(response) && response.length !== 0)
             response = response[0];
 
           if (response.hasOwnProperty("fluidbalancesession_id")) {

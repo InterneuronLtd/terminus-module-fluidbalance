@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@ import { Subscription } from 'rxjs';
 import { AppService } from './services/app.service';
 import { ApirequestService } from './services/apirequest.service';
 import { SubjectsService } from './services/subjects.service';
-import { isArray } from 'util';
 import { filters, filterParams, filterparam, filter, selectstatement, orderbystatement, action, DataContract } from './models/Filter.model';
 import { Route, Routetype, Fluidcapturedevice, Routetypefluidcapturedevice, Fluidbalanceiotype, Expectedurineoutput, RouteConfig, Fluidbalancesession } from './models/fluidbalance.model';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -106,7 +105,7 @@ export class AppComponent implements OnDestroy {
     if (this.appService.apiService) {
       decodedToken = this.appService.decodeAccessToken(this.appService.apiService.authService.user.access_token);
       if (decodedToken != null)
-        this.appService.loggedInUserName = decodedToken.name ? (isArray(decodedToken.name) ? decodedToken.name[0] : decodedToken.name) : decodedToken.IPUId;
+        this.appService.loggedInUserName = decodedToken.name ? (Array.isArray(decodedToken.name) ? decodedToken.name[0] : decodedToken.name) : decodedToken.IPUId;
 
     }
     await this.subscriptions.add(this.apiRequest.getRequest("./assets/config/FluidBalanceConfig.json?V" + Math.random()).subscribe(
@@ -266,7 +265,7 @@ export class AppComponent implements OnDestroy {
       synapseroles = decodedToken.SynapseRoles
     else
       synapseroles = decodedToken.client_SynapseRoles
-    if (!isArray(synapseroles)) {
+    if (!Array.isArray(synapseroles)) {
       condition = "rolename = @rolename";
       pm.filterparams.push(new filterparam("rolename", synapseroles));
     }

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SbarEscalationFormComponent } from './sbar-escalation-form.component';
 
@@ -26,7 +26,7 @@ describe('SbarEscalationFormComponent', () => {
   let component: SbarEscalationFormComponent;
   let fixture: ComponentFixture<SbarEscalationFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SbarEscalationFormComponent ]
     })

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2021  Interneuron CIC
+//Copyright(C) 2022  Interneuron CIC
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -64,57 +64,56 @@ import { PauseInfusionComponent } from './continuous-infusion/pause-infusion/pau
 import { CompleteContinousInfusionComponent } from './continuous-infusion/complete-continous-infusion/complete-continous-infusion.component';
 import { AutoGrowDirective } from './common/auto-grow.directive';
 @NgModule({
-  declarations: [
-    AppComponent,
-    FluidBalanceMonitoringComponent,
-    RecordWeightComponent,
-    RunningTotalComponent,
-    ChartDateComponent,
-    EncounterComponent,
-    SingleVolumeFluidIntakeComponent,
-    FilterPipe,
-    StopFluidBalanceMonitoringComponent,
-    FluidbalanceChartComponent,
-    ContinuousInfusionComponent,
-    InfusionMenuComponent,
-    ValidateInfusionComponent,
-    ChangePumpComponent,
-    FluidLossComponent,
-    InfusionHistoryComponent,
-    CompleteInfusionComponent,
-    StartInfusionComponent,
-    TimeslotOptionsComponent,
-    SingleVolumeIntakeHistoryComponent,
-    AddRouteComponent,
-    AddBolusComponent,
-    AddFlushComponent,
-    SingleVolumeFluidOutputComponent,
-    SingleVolumeOutputHistoryComponent,
-    SbarEscalationFormComponent,
-    NumberOnlyDirective,
-    UrineOutputHistoryComponent,
-    PauseInfusionComponent,
-    CompleteContinousInfusionComponent,
-    AutoGrowDirective
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    BsDatepickerModule.forRoot(),
-    BrowserAnimationsModule,
-    FormsModule,
-    CommonModule,
-    ModalModule.forRoot(),
-    TimepickerModule.forRoot(),
-    PopoverModule.forRoot(),
-    CoreLibModule 
-  ],
-  providers: [
-    DatePipe,
-    BsModalRef
-  ],
-  bootstrap: [],
-  entryComponents: [AppComponent]
+    declarations: [
+        AppComponent,
+        FluidBalanceMonitoringComponent,
+        RecordWeightComponent,
+        RunningTotalComponent,
+        ChartDateComponent,
+        EncounterComponent,
+        SingleVolumeFluidIntakeComponent,
+        FilterPipe,
+        StopFluidBalanceMonitoringComponent,
+        FluidbalanceChartComponent,
+        ContinuousInfusionComponent,
+        InfusionMenuComponent,
+        ValidateInfusionComponent,
+        ChangePumpComponent,
+        FluidLossComponent,
+        InfusionHistoryComponent,
+        CompleteInfusionComponent,
+        StartInfusionComponent,
+        TimeslotOptionsComponent,
+        SingleVolumeIntakeHistoryComponent,
+        AddRouteComponent,
+        AddBolusComponent,
+        AddFlushComponent,
+        SingleVolumeFluidOutputComponent,
+        SingleVolumeOutputHistoryComponent,
+        SbarEscalationFormComponent,
+        NumberOnlyDirective,
+        UrineOutputHistoryComponent,
+        PauseInfusionComponent,
+        CompleteContinousInfusionComponent,
+        AutoGrowDirective
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        BsDatepickerModule.forRoot(),
+        BrowserAnimationsModule,
+        FormsModule,
+        CommonModule,
+        ModalModule.forRoot(),
+        TimepickerModule.forRoot(),
+        PopoverModule.forRoot(),
+        CoreLibModule
+    ],
+    providers: [
+        DatePipe,
+        BsModalRef
+    ],
+    bootstrap: []
 })
 export class AppModule {
 

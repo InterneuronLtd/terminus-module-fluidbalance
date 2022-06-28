@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <div class="card-header">
 
         <span *ngIf="!timeslot.isValid()"> {{routename}}</span>
-        <span *ngIf="timeslot.isValid()">{{routename}} - {{ timeslot | date:'mediumDate' }} {{ timeslot | date:'shortTime' }} </span>
+        <span *ngIf="timeslot.isValid()">{{routename}} - {{ timeslot.format('MMM d, y') }} {{ timeslot.format('h:mm a') }} </span>
         <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2021  Interneuron CIC
+Copyright(C) 2022  Interneuron CIC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                        <div class="col-12">
                               <div class="form-group">
                                <label>Total Volume(ml):</label>
-                               <input type="text" pattern="^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$" name="volume" class="form-control" [(ngModel)]="intakeOutput.volume"                         
+                               <input type="text" pattern="^\s*(?=.*[0-9])\d*(?:\.\d{1,2})?\s*$" name="volume" class="form-control" [(ngModel)]="intakeOutput.volume"                         
                                #volume="ngModel" wholeNumber   [ngClass]="{ 'is-invalid': intakeForm.submitted && volume.invalid }" (focus)="clearTextboxValue()" required>
                              </div>                                                  
                        </div>
