@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2023  Interneuron Holdings Ltd
+//Copyright(C) 2024  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -33,13 +33,13 @@ import * as moment from 'moment';
 })
 export class SingleVolumeIntakeHistoryComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
-  singleVolumeHistotry = [];   
-  constructor(private subjects: SubjectsService, private apiRequest: ApirequestService, public appService: AppService) { 
+  singleVolumeHistotry = [];
+  constructor(private subjects: SubjectsService, private apiRequest: ApirequestService, public appService: AppService) {
     this.subscriptions.add(this.subjects.openSingleIntakeHistory.subscribe
-      ((event: any) => {             
-        this.appService.logToConsole("open single intake");   
-        this.appService.showSingleVolumeIntakeHistory = true; 
-        this.singleVolumeHistotry = [];         
+      ((event: any) => {
+        this.appService.logToConsole("open single intake");
+        this.appService.showSingleVolumeIntakeHistory = true;
+        this.singleVolumeHistotry = [];
         this.getFluidIntakeHistory(event.fluidbalanceintakeoutput_id);
       }));
 
@@ -47,32 +47,32 @@ export class SingleVolumeIntakeHistoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
    // get single voulme fluid intake
-   getFluidIntakeHistory(id: string) { 
-     this.appService.logToConsole(id);   
+   getFluidIntakeHistory(id: string) {
+     this.appService.logToConsole(id);
     this.subscriptions.add(
       this.apiRequest.getRequest(this.appService.baseURI + '/GetObjectHistory?synapsenamespace=core&synapseentityname=fluidbalanceintakeoutput&id=' + id + "&orderby=_createddate DESC")
         .subscribe((response) => {
-          this.appService.logToConsole(response);  
-          var data = JSON.parse(response); 
-        
+          this.appService.logToConsole(response);
+          var data = JSON.parse(response);
+
           for(var i=0; i < data.length; i ++){
-            var intake =  new SingleVolumeHistory(); 
+            var intake =  new SingleVolumeHistory();
             if(this.appService.MetaRouteTypes.find(x=>x.routetype_id==data[i].routetype_id))
-              intake.devicetype = this.appService.MetaRouteTypes.find(x=>x.routetype_id==data[i].routetype_id).routetype;            
-            intake.volume= data[i].volume + " " + data[i].units;          
+              intake.devicetype = this.appService.MetaRouteTypes.find(x=>x.routetype_id==data[i].routetype_id).routetype;
+            intake.volume= data[i].volume + " " + data[i].units;
             intake.amendedby = data[i].modifiedby;
             intake.isremoved = data[i].isremoved;
            // intake.datetime = moment(data[i]._createddate).format("DD-MM-YYYY HH:mm:ss");
-            intake.datetime =  new Date(this.appService.formatUTCDate(data[i]._createdtimestamp));
+            intake.datetime =  new Date(this.appService.formatUTCDate(data[i]._createddate));
             if(data[i].isamended)
               intake.reason = data[i].reasonforamend
             if(data[i].isremoved)
               intake.reason = data[i].reasonforremoval
             if(!data[i].isamended && !data[i].isremoved)
                 intake.reason = "Observation created"
-            
+
             this.singleVolumeHistotry.push(intake);
-            this.singleVolumeHistotry = this.singleVolumeHistotry.slice().sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime());     
+            this.singleVolumeHistotry = this.singleVolumeHistotry.slice().sort((a, b) => new Date(b.datetime).getTime() - new Date(a.datetime).getTime());
           }
         })
     )
