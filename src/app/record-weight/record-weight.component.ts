@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -160,7 +160,7 @@ export class RecordWeightComponent implements OnInit, OnDestroy {
                 this.subscriptions.add(this.apiRequest.postRequest(this.appService.baseURI + "/PostObject?synapsenamespace=core&synapseentityname=observation", JSON.stringify(weightObs))
                   .subscribe((response) => {
                     this.appService.isWeightCaptured = true;
-                    this.subjects.weightChanged.next();
+                    this.subjects.weightChanged.next(true);
                     this.bsModalRef.hide();                     
                     this.subjects.frameworkEvent.next("UPDATE_HEIGHT_WEIGHT");
                   })

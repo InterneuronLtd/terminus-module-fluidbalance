@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -97,7 +97,7 @@ export class StopFluidBalanceMonitoringComponent implements OnInit,OnDestroy {
     //   this.apiRequest.postRequest(AppConfig.uris.baseuri + AppConfig.dynamicApiEndpoints.find((x: { endpointName: string }) => x.endpointName == "PostFluidBalancePersonStatus").url, JSON.stringify(fluidBalancePersonStatus))
     //     .subscribe((response) => {
     //       this.checkForFluidBalanceMontoring();
-    //       this.subjects.monitoringStopped.next();
+    //       this.subjects.monitoringStopped.next(true);
 
     //     }));
 
@@ -105,7 +105,7 @@ export class StopFluidBalanceMonitoringComponent implements OnInit,OnDestroy {
       this.apiRequest.postRequest(`${this.appService.appConfig.uris.carerecordbaseuri}/SetMonitoringStatus`, JSON.stringify(fluidBalancePersonStatus))
         .subscribe((response) => {
           this.checkForFluidBalanceMontoring();
-          this.subjects.monitoringStopped.next();
+          this.subjects.monitoringStopped.next(true);
         })
     );
   }

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -274,7 +274,13 @@ export class InfusionMenuComponent implements OnInit, OnDestroy {
         this.routename = this.appService.MetaRouteTypes.find(x => x.routetype_id == this.coreContinuousinfusion.routetype_id).routetype.toUpperCase() + "-" +
           this.appService.MetaRoutes.find(x => x.route_id == this.coreContinuousinfusion.route_id).route.toUpperCase();
         this.ShowMenu = true;
-        this.showHistory = true;
+        if(this.coreContinuousinfusion.pumpnumber==""){
+        this.showPumpChange=true;
+        }
+        else{
+          this.showHistory = true;
+        }
+       
         this.Getlastevent();
         this.calculateFluidLoss();
 
@@ -306,7 +312,7 @@ export class InfusionMenuComponent implements OnInit, OnDestroy {
       this.showHistory = false;
       this.defaultMenuoptions();
       this.loadcoreContinuousinfusion();
-      this.subjects.drawChart.next();
+      this.subjects.drawChart.next(true);
     }
   }
 

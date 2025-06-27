@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -184,7 +184,7 @@ export class SingleVolumeFluidIntakeComponent implements OnInit, OnDestroy {
         .subscribe((response) => {
           this.showSpinner = false;
           this.appService.showSingleIntakeForm = false;              
-          this.subjects.drawChart.next();          
+          this.subjects.drawChart.next(true);          
         })
     )
 

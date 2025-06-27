@@ -30,8 +30,7 @@
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",
-              "./node_modules/popper.js/dist/umd/popper.min.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.js"
+              "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -51,7 +50,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -86,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "terminus-module-fluidbalance:build"
+            "buildTarget": "terminus-module-fluidbalance:build"
           }
         },
         "test": {
@@ -123,7 +121,6 @@
       }
     }
   },
-  "defaultProject": "terminus-module-fluidbalance",
   "cli": {
     "analytics": false
   }

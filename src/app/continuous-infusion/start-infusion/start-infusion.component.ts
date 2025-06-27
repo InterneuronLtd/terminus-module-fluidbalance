@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import * as moment from 'moment';
 import { Subscription, Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { CoreContinuousinfusion, CoreContinuousinfusionevent } from 'src/app/models/CoreContinuousinfusion.model';
-import { UpsertTransactionManager } from '@interneuroncic/interneuron-ngx-core-lib';
+import { UpsertTransactionManager } from 'src/app/common/upsert-transaction-manager';
 
 @Component({
   selector: 'app-start-infusion',
@@ -281,7 +281,7 @@ export class StartInfusionComponent implements OnInit ,OnDestroy {
 
     this.upsertManager.save((res) => {
      
-      this.subjects.drawChart.next();
+      this.subjects.drawChart.next(true);
       this.loadSummaryEvent.emit(this.coreContinuousinfusion.continuousinfusion_id);
       this.showspinner=false;
     },

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { filters, filter, filterParams, filterparam, selectstatement, orderbystatement } from '../models/Filter.model';
 import { ApirequestService } from '../services/apirequest.service';
+import { EPMAIntegrationHelper } from '../fluidbalance-chart/epmaintegration.helper';
 
 @Component({
   selector: 'app-chart-date',
@@ -109,8 +110,7 @@ export class ChartDateComponent implements OnInit, OnDestroy {
       //curent encounter
       this.onTodayClick();
     }
-    this.subjects.continuousInfusionMessage.next();
-
+    this.subjects.continuousInfusionMessage.next(true);
   }
 
   ngOnInit(): void {
@@ -123,7 +123,7 @@ export class ChartDateComponent implements OnInit, OnDestroy {
       this.displayDateText = this.selectedDate.toDateString();
       this.disableNextButton = this.checkForDisableNextButton(this.selectedDate);
       this.disablePreviousButton = this.checkForDisablePreviousButton(this.selectedDate);
-      this.subjects.continuousInfusionMessage.next();
+      this.subjects.continuousInfusionMessage.next(true);
     }
   }
 
@@ -135,7 +135,7 @@ export class ChartDateComponent implements OnInit, OnDestroy {
     this.displayDateText = this.selectedDate.toDateString();
     this.disableNextButton = this.checkForDisableNextButton(this.selectedDate);
     this.disablePreviousButton = this.checkForDisablePreviousButton(this.selectedDate);
-    this.subjects.continuousInfusionMessage.next();
+    this.subjects.continuousInfusionMessage.next(true);
   }
 
   onNextClick() {
@@ -145,7 +145,7 @@ export class ChartDateComponent implements OnInit, OnDestroy {
       this.displayDateText = this.selectedDate.toDateString();
       this.disableNextButton = this.checkForDisableNextButton(this.selectedDate);
       this.disablePreviousButton = this.checkForDisablePreviousButton(this.selectedDate);
-      this.subjects.continuousInfusionMessage.next();
+      this.subjects.continuousInfusionMessage.next(true);
     }
   }
 
@@ -165,7 +165,7 @@ export class ChartDateComponent implements OnInit, OnDestroy {
       this.disablePreviousButton = this.checkForDisablePreviousButton(this.selectedDate);
       this.appService.currentChartDate = this.selectedDate;
       this.isCalledOnce = true;
-      this.subjects.chartDateChange.next();
+      this.subjects.chartDateChange.next(true);
     }
   }
 

@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2024  Interneuron Limited
+Copyright(C) 2025  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,12 +33,12 @@ There is no fluid balance chart available for this date.
         <td rowspan="2" width="2%">Time</td>
         <td [attr.colspan]="intakeRoutesCount">
           <div class="row">
-            <div class="col-md-3 h6 text-left">Intake</div> <div class="col-md-6" *ngIf="appService.isCurrentEncouner"> <a href="#" (click)="openAddRouteModal(true)" *ngIf="appService.IsCurrentDaySession() && appService.IsCurrentEncounter() && appService.IsMonitoringActive()">Add Intake Route</a></div>
+            <div class="col-md-3 h6 text-left">Intake</div> <div class="col-md-6" *ngIf="appService.isCurrentEncouner"> <a href="javascript:void(0)" (click)="openAddRouteModal(true)" *ngIf="appService.IsCurrentDaySession() && appService.IsCurrentEncounter() && appService.IsMonitoringActive()">Add Intake Route</a></div>
           </div>
         </td>
         <td [attr.colspan]="outputRoutesCount" style="border-left: double">
           <div class="row">
-            <div class="col-md-3 h6 text-left">Output</div> <div class="col-md-6" *ngIf="appService.isCurrentEncouner"> <a href="#" (click)="openAddRouteModal(false)" *ngIf="appService.IsCurrentDaySession() && appService.IsCurrentEncounter() && appService.IsMonitoringActive()">Add Output Route</a></div>
+            <div class="col-md-3 h6 text-left">Output</div> <div class="col-md-6" *ngIf="appService.isCurrentEncouner"> <a href="javascript:void(0)" (click)="openAddRouteModal(false)" *ngIf="appService.IsCurrentDaySession() && appService.IsCurrentEncounter() && appService.IsMonitoringActive()">Add Output Route</a></div>
           </div>
         </td>
       </tr>

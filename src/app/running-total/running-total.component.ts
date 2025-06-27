@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -128,7 +128,7 @@ export class RunningTotalComponent implements OnInit, OnDestroy {
     );
   }
   openUrineHistory() {
-    this.subjects.openUrineOutputHistory.next();
+    this.subjects.openUrineOutputHistory.next(true);
   }
   calculateRunningTotal() {
     this.sessionSubscriptions.add(this.apiRequest.postRequest(this.appService.baseURI + "/GetBaseViewListByPost/fluidbalance_calculaterunningtotal", this.createRunningTotalFilter())

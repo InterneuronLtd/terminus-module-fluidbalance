@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ export class ChangePumpComponent implements OnInit ,OnDestroy{
   @Output() reFreshMenu = new EventEmitter();
 
   errormessage: string = "";
-
+  pumpNumber="";
   constructor(private upsertManager:UpsertTransactionManager,private subjects: SubjectsService, private apiRequest: ApirequestService, public appService: AppService) { }
   
   ngOnDestroy(): void {
@@ -52,7 +52,7 @@ export class ChangePumpComponent implements OnInit ,OnDestroy{
   }
 
   ngOnInit(): void {
- 
+ this.pumpNumber=this.coreContinuousinfusion.pumpnumber;
     this.timepicker =new Date();
     if(moment(this.selectedTimeslot).isValid()) {
       this.timepicker = new Date(moment(this.selectedTimeslot).toDate().setHours(moment(this.selectedTimeslot).get("hours"), 0, 0, 0));
@@ -98,7 +98,7 @@ export class ChangePumpComponent implements OnInit ,OnDestroy{
 
   }
   pumChange() {
-    if (this.coreContinuousinfusion.pumpnumber.trim() == "") {
+    if (this.pumpNumber.trim() == "") {
 
       this.errormessage = "Please enter Pump Number "
     }
@@ -107,6 +107,7 @@ export class ChangePumpComponent implements OnInit ,OnDestroy{
       this.upsertManager.beginTran(this.appService.baseURI, this.apiRequest);
       
       let pumpChangeEventid = uuidv4();    
+      this.coreContinuousinfusion.pumpnumber= this.pumpNumber;
       this.coreContinuousinfusion.eventcorrelationid = pumpChangeEventid;
       let pumpnumberEvent = this.continuousInfusionEvents( pumpChangeEventid, "pumpnumber", this.appService.getDateTimeinISOFormat(this.timepicker),this.coreContinuousinfusion.continuousinfusion_id);
     

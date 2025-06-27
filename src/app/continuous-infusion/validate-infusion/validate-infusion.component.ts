@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -27,8 +27,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import { Fluidbalanceintakeoutput } from 'src/app/models/fluidbalance.model';
-import { UpsertTransactionManager } from '@interneuroncic/interneuron-ngx-core-lib';
-import { datepickerAnimation } from 'ngx-bootstrap/datepicker/datepicker-animations';
+import { UpsertTransactionManager } from 'src/app/common/upsert-transaction-manager';
 
 
 @Component({
@@ -91,17 +90,22 @@ export class ValidateInfusionComponent implements OnInit, OnDestroy {
   showspinner: boolean = false;
 
   constructor(private upsertManager: UpsertTransactionManager, private subjects: SubjectsService, private apiRequest: ApirequestService, public appService: AppService) {
-
-
+   
 
   }
   ngOnDestroy(): void {
+   
     this.upsertManager.destroy();
     this.subscriptions.unsubscribe();
   }
 
 
   ngOnInit(): void {
+   
+    if( this.coreContinuousinfusion.pumpnumber==""){
+    this.invalideDateMessage="Please Update the pump Number to Validate"
+    }
+
     this.totalfluidLoss = 0;
     let CoreContinuousinfusionfluidloss: CoreContinuousinfusionfluidloss[] = [];
     this.subscriptions.add(this.apiRequest.getRequest(this.appService.baseURI + "/GetListByAttribute?synapsenamespace=core&synapseentityname=continuousinfusionfluidloss&synapseattributename=continuousinfusion_id&attributevalue=" + this.coreContinuousinfusion.continuousinfusion_id).subscribe(
@@ -232,6 +236,10 @@ export class ValidateInfusionComponent implements OnInit, OnDestroy {
   }
 
   isValid(event: boolean): void {
+    if(this.coreContinuousinfusion.pumpnumber==""){
+      this.invalideDateMessage="Please record pump number"
+      return
+      }
     this.getMaxdate();
     this.invalideDateMessage = "";
     let StartHour = this.appService.sessionStartDateTime.getHours();
@@ -501,9 +509,9 @@ export class ValidateInfusionComponent implements OnInit, OnDestroy {
       ////////////////////save///////////////////////////////////////////////
       this.upsertManager.save((res) => {
 
-        this.subjects.drawChart.next();
+        this.subjects.drawChart.next(true);
         this.reFreshMenu.emit("refresh");
-        this.subjects.continuousInfusionMessage.next();
+        this.subjects.continuousInfusionMessage.next(true);
       },
         (error) => {
           // this.validationErrors=error;

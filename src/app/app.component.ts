@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -77,17 +77,19 @@ export class AppComponent implements OnDestroy {
 
   initDevMode() {
     //commment out to push to framework - 3lines
-    this.appService.personId =  "17775da9-8e71-4a3f-9042-4cdcbf97efec";// "0422d1d0-a9d2-426a-b0b2-d21441e2f045";//"429904ca-19c1-4a3a-b453-617c7db513a3";//"027c3400-24cd-45c1-9e3d-0f4475336394";//"429904ca-19c1-4a3a-b453-617c7db513a3";
+    if (!environment.production) {
 
-    let value: any = {};
-    value.authService = {};
-    value.authService.user = {};
-    let auth = this.apiRequest.authService;
-    auth.getToken().then((token) => {
-      value.authService.user.access_token = token;
-      this.initConfigAndGetMeta(value);
-    });
+      this.appService.personId = "17775da9-8e71-4a3f-9042-4cdcbf97efec";// "0422d1d0-a9d2-426a-b0b2-d21441e2f045";//"429904ca-19c1-4a3a-b453-617c7db513a3";//"027c3400-24cd-45c1-9e3d-0f4475336394";//"429904ca-19c1-4a3a-b453-617c7db513a3";
 
+      let value: any = {};
+      value.authService = {};
+      value.authService.user = {};
+      let auth = this.apiRequest.authService;
+      auth.getToken().then((token) => {
+        value.authService.user.access_token = token;
+        this.initConfigAndGetMeta(value);
+      });
+    }
   }
 
 
@@ -139,9 +141,9 @@ export class AppComponent implements OnDestroy {
 
         //emit events after getting initial config. //this happens on first load only. 
         this.appService.logToConsole("Service reference is being published from init config");
-        this.subjects.apiServiceReferenceChange.next();
+        this.subjects.apiServiceReferenceChange.next(true);
         this.appService.logToConsole("personid is being published from init config");
-        this.subjects.personIdChange.next();
+        this.subjects.personIdChange.next(true);
 
       }));
 

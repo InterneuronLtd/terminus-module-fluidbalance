@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -153,7 +153,7 @@ export class FluidbalanceHelper {
   //      if (response && response.length !== 0) {
   //        {
   //          this.appService.FluidBalanceSession = response[0];
-  //          sub.next();
+  //          sub.next(true);
   //          sub.complete();
   //        }
   //      }
@@ -255,17 +255,17 @@ export class FluidbalanceHelper {
   //                                                //  subscribe(() => {
   //                                                this.subscriptions.add(this.apiRequest.postRequest(this.appService.baseURI + "/PostObjectArray?synapsenamespace=core&synapseentityname=fluidbalancesessionroutesessions", JSON.stringify(ciroutesmapping)).
   //                                                  subscribe((mapping) => {
-  //                                                    sub.next();
+  //                                                    sub.next(true);
   //                                                    sub.complete();
   //                                                  }));
   //                                              //}));
   //                                              else {
-  //                                                sub.next();
+  //                                                sub.next(true);
   //                                                sub.complete();
   //                                              }
   //                                            }));
   //                                        } else {
-  //                                          sub.next();
+  //                                          sub.next(true);
   //                                          sub.complete();
   //                                        }
   //                                      }));
@@ -304,17 +304,17 @@ export class FluidbalanceHelper {
             {
               this.appService.FluidBalanceSession = response as Fluidbalancesession;
               Object.keys(this.appService.FluidBalanceSession).map((e) => { if (e.startsWith("_")) delete this.appService.FluidBalanceSession[e]; })
-              sub.next();
+              sub.next(true);
               sub.complete();
             }
           }
           else {
-            sub.next();
+            sub.next(true);
             sub.complete();
           }
         }
         else {
-          sub.next();
+          sub.next(true);
           sub.complete();
         }
       }));
@@ -349,11 +349,11 @@ export class FluidbalanceHelper {
                       this.appService.FluidBalanceSessionContinuousInfusionsEvents = response;
                     }
                   }
-                  sub.next();
+                  sub.next(true);
                   sub.complete();
                 }));
             else {
-              sub.next();
+              sub.next(true);
               sub.complete();
             }
           }));
@@ -371,7 +371,7 @@ export class FluidbalanceHelper {
 
         const intakeoutput = JSON.parse(response);
         this.appService.FluidBalanceIntakeOutput = intakeoutput as Array<Fluidbalanceintakeoutput>;
-        sub.next();
+        sub.next(true);
         sub.complete();
 
       }));

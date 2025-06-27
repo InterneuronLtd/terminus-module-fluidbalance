@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -139,7 +139,7 @@ export class FluidBalanceMonitoringComponent implements OnInit, OnDestroy {
     //     .subscribe((response) => {
     //       this.checkForFluidBalanceMontoring();
     //       this.getWeightObservations();
-    //       this.subjects.monitoringStarted.next();
+    //       this.subjects.monitoringStarted.next(true);
     //     })
     // );
 
@@ -147,7 +147,7 @@ export class FluidBalanceMonitoringComponent implements OnInit, OnDestroy {
     .subscribe((response) => {
           this.checkForFluidBalanceMontoring();
           this.getWeightObservations();
-          this.subjects.monitoringStarted.next();
+          this.subjects.monitoringStarted.next(true);
     }));
   }
 
@@ -171,7 +171,7 @@ export class FluidBalanceMonitoringComponent implements OnInit, OnDestroy {
     .subscribe((response) => {
           this.checkForFluidBalanceMontoring();
           this.getWeightObservations();
-          this.subjects.monitoringStarted.next();
+          this.subjects.monitoringStarted.next(true);
     }));
   }
 

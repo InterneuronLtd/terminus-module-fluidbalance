@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2024  Interneuron Limited
+Copyright(C) 2025  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,14 +27,14 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
       <div class="card-header">
 
         <span *ngIf="!timeslot.isValid()"> {{routename}}</span>
-        <span *ngIf="timeslot.isValid()">{{routename}} - {{ timeslot.format('MMM d, y') }} {{ timeslot.format('h:mm a') }} </span>
+        <span *ngIf="timeslot.isValid()">{{routename}} - {{ timeslot.format('MMM D, YYYY') }} {{ timeslot.format('h:mm a') }} </span>
         <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body" *ngIf="timeslot.isValid()">
         <div class="card-header border-0 bg-white">
-          <h5 class="" *ngIf="isintake && routename!='Oral'">Continuous Infusions and Observations</h5>
+          <h5 class="" *ngIf="isintake && routename!='Oral'">Infusions and Observations</h5>
           <h5 class="" *ngIf="!isintake || (isintake && routename==='Oral')">Observations</h5>
         </div>
         <div class="card" style="max-height:400px;overflow-y:auto;overflow-x:hidden">
@@ -45,10 +45,11 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   <ng-container *ngFor="let fbIO of timeslotOption">
                     <tr *ngIf="fbIO.continuousinfusion_id && !appService.AuthoriseAction('View CI')">
                       <td>
-                        <b>Continuous Infusion - {{fbIO.routeType}} ({{fbIO.totalvolume}}ml<span *ngIf="fbIO.ispaused">- Paused</span><span *ngIf="fbIO.finishdatetime">-Completed</span>)</b>
+                        <b>Infusion - {{fbIO.routeType}} ({{fbIO.totalvolume}}ml<span *ngIf="fbIO.ispaused">- Paused</span><span *ngIf="fbIO.finishdatetime">-Completed</span>)</b>
                         <br>
                         <small><i>{{ fbIO.datetime | date:'mediumDate' }} {{ fbIO.datetime | date:'shortTime' }}</i></small>
                         <small *ngIf="fbIO.pumpnumber"><i>  Pump: {{ fbIO.pumpnumber}}</i></small>
+                        &nbsp;<small *ngIf="fbIO.__iscancelled" class="text-danger">Infusion cancelled</small>
                       </td>                                            
                       <td></td> 
                       <td></td>
@@ -56,10 +57,11 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                     </tr>
                     <tr *ngIf="fbIO.continuousinfusion_id && appService.AuthoriseAction('View CI')" (click)='historySingleVolumeIntake(fbIO)' style="cursor:pointer">
                       <td>
-                        <b>Continuous Infusion - {{fbIO.routeType}} ({{fbIO.totalvolume}}ml<span *ngIf="fbIO.ispaused">- Paused</span><span *ngIf="fbIO.finishdatetime">- Completed</span>)</b>
+                        <b>Infusion - {{fbIO.routeType}} ({{fbIO.totalvolume}}ml<span *ngIf="fbIO.ispaused">- Paused</span><span *ngIf="fbIO.finishdatetime">- Completed</span>)</b>
                         <br>
                         <small><i>{{ fbIO.datetime | date:'mediumDate' }} {{ fbIO.datetime | date:'shortTime' }}</i></small>
                         <small *ngIf="fbIO.pumpnumber"><i>  Pump: {{ fbIO.pumpnumber}}</i></small>
+                        &nbsp;<small *ngIf="fbIO.__iscancelled" class="text-danger"> Infusion cancelled</small>
                       </td>                                            
                       <td> <a href="javascript: void(0);"> <i class="fa fa-wrench"></i></a></td>                       
                       <td></td>
@@ -79,7 +81,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   
                   <tr *ngIf="timeslotOption.length==0 && routename!='Oral'">
                     <td colspan="4">
-                      <small><i>No Continuous Infusions or Observations</i></small>
+                      <small><i>No Infusions or Observations</i></small>
                     </td>
                   </tr>
                   <tr *ngIf="timeslotOption.length==0 && routename=='Oral'">
@@ -129,7 +131,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
               </div>
 
               <div class="col-5" *ngIf="appService.AuthoriseAction('Start CI') && appService.IsCurrentDaySession()" [hidden]="!iscontinuousinfusion">
-                <input type="button" class="btn btn-sm btn-secondary btn-block  text-wrap font-weight-bold" (click)="addContinuousInfusion()" value="Start a new continuous infusion">
+                <input type="button" class="btn btn-sm btn-secondary btn-block  text-wrap font-weight-bold" (click)="addContinuousInfusion()" value="Start an infusion">
               </div>
             </div>
           </fieldset>
@@ -139,7 +141,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
 
       <div class="modal-body" *ngIf="!timeslot.isValid() && continuousinfusioncount>0">
         <div class="card-header border-0 bg-white">
-          <h5 class="">Manage Continuous Infusions</h5>
+          <h5 class="">Manage Infusions</h5>
         </div>
         <div class="card" style="max-height:400px;overflow-y:auto;overflow-x:hidden">
           <div class="row  p-2">
@@ -149,10 +151,11 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                   <ng-container *ngFor="let fbIO of timeslotOption">
                     <tr *ngIf="fbIO.continuousinfusion_id && !appService.AuthoriseAction('View CI')">
                       <td>
-                        <b>Continuous Infusion - {{fbIO.routeType}} ({{fbIO.totalvolume}}ml<span *ngIf="fbIO.ispaused">- Paused</span><span *ngIf="fbIO.finishdatetime">- Completed</span>)</b>
+                        <b>Infusion - {{fbIO.routeType}} ({{fbIO.totalvolume}}ml<span *ngIf="fbIO.ispaused">- Paused</span><span *ngIf="fbIO.finishdatetime">- Completed</span>)</b>
                         <br>
                         <small><i>{{ fbIO.datetime | date:'mediumDate' }} {{ fbIO.datetime | date:'shortTime' }}</i></small>
                         <small *ngIf="fbIO.pumpnumber"><i>  Pump: {{ fbIO.pumpnumber}}</i></small>
+                        &nbsp;<small *ngIf="fbIO.__iscancelled" class="text-danger"> Infusion cancelled</small>
                       </td>                                            
                       <td></td> 
                       <td></td>
@@ -160,10 +163,11 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                     </tr>
                     <tr *ngIf="fbIO.continuousinfusion_id && appService.AuthoriseAction('View CI')" (click)='historySingleVolumeIntake(fbIO)' style="cursor:pointer">
                       <td>
-                        <b>Continuous Infusion - {{fbIO.routeType}} ({{fbIO.totalvolume}}ml<span *ngIf="fbIO.ispaused">- Paused</span><span *ngIf="fbIO.finishdatetime">- Completed</span>)</b>
+                        <b>Infusion - {{fbIO.routeType}} ({{fbIO.totalvolume}}ml<span *ngIf="fbIO.ispaused">- Paused</span><span *ngIf="fbIO.finishdatetime">- Completed</span>)</b>
                         <br>
                         <small><i>{{ fbIO.datetime | date:'mediumDate' }} {{ fbIO.datetime | date:'shortTime' }}</i></small>
                         <small *ngIf="fbIO.pumpnumber"><i>  Pump: {{ fbIO.pumpnumber}}</i></small>
+                        &nbsp;<small *ngIf="fbIO.__iscancelled" class="text-danger"> Infusion cancelled</small>
                       </td>                                            
                       <td> <a href="javascript: void(0);"> <i class="fa fa-wrench"></i></a></td>                       
                       <td></td>
@@ -173,7 +177,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                 
                   <tr *ngIf="timeslotOption.length==0">
                     <td colspan="4">
-                      <small><i>No Contonuos Infusions</i></small>
+                      <small><i>No Infusions</i></small>
                     </td>
                   </tr>
                 </tbody>
@@ -202,7 +206,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
               </div>
 
               <div class="col-6" *ngIf="appService.AuthoriseAction('Start CI') && appService.IsCurrentDaySession()">
-                <input type="button" class="btn btn-sm btn-secondary btn-block  text-wrap font-weight-bold" (click)="addContinuousInfusion()" value="Start a continuous infusion">
+                <input type="button" class="btn btn-sm btn-secondary btn-block  text-wrap font-weight-bold" (click)="addContinuousInfusion()" value="Start an infusion">
               </div>
             </div>
           </fieldset>
@@ -220,7 +224,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             </div>
 
             <div class="col-6" *ngIf="appService.AuthoriseAction('Start CI') && appService.IsCurrentDaySession()">
-              <input type="button" class="btn btn-sm btn-secondary btn-block  text-wrap font-weight-bold" (click)="addContinuousInfusion()" value="Start a continuous infusion">
+              <input type="button" class="btn btn-sm btn-secondary btn-block  text-wrap font-weight-bold" (click)="addContinuousInfusion()" value="Start an infusion">
             </div>
           </div>
         </div>

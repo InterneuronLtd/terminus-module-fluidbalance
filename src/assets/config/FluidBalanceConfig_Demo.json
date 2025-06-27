@@ -1,0 +1,13 @@
+{
+  "uris": {
+    "baseuri": "https://synapsedynamicapi-demo.azurewebsites.net",
+    "carerecordbaseuri": "https://carerecordapi-demo.azurewebsites.net/FluidBalance"
+  },
+  "enablelogging": true,
+  "appsettings": {
+    "sessionStartTime": 8,
+    "maxIntakeRoutes": 6,
+    "maxOutputRoutes": 6
+  },
+  "prodbuild": false
+}

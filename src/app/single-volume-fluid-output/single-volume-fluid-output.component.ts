@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -126,7 +126,7 @@ export class SingleVolumeFluidOutputComponent implements OnInit, OnDestroy {
                 .subscribe((response) => {
                   this.fluidbalanceintakeoutput_id = JSON.parse(response)[0].fluidbalanceintakeoutput_id;    
                   this.showSpinner = false;                    
-                  this.subjects.drawChart.next();  
+                  this.subjects.drawChart.next(true);  
                   event.sbar.fluidbalanceintakeoutput_id = this.fluidbalanceintakeoutput_id;
                   /// save SBR Form              
                   this.subscriptions.add(
@@ -210,7 +210,7 @@ export class SingleVolumeFluidOutputComponent implements OnInit, OnDestroy {
           this.fluidbalanceintakeoutput_id = JSON.parse(response)[0].fluidbalanceintakeoutput_id;    
           this.showSpinner = false;
           this.appService.showSingleOutputForm = false;            
-          this.subjects.drawChart.next();               
+          this.subjects.drawChart.next(true);               
         })
     )
   }

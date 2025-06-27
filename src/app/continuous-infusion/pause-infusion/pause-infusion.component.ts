@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -92,7 +92,7 @@ export class PauseInfusionComponent implements OnInit {
       this.upsertManager.save((res) => {
   
         this.resionForPause = "";
-        this.subjects.drawChart.next();
+        this.subjects.drawChart.next(true);
         this.reFreshMenu.emit("pause");
       },
         (error) => {

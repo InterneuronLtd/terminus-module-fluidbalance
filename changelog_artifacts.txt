@@ -397,3 +397,14 @@ update entitystorematerialised.meta_routetype set routetype = upper(substring(ro
 
 update entitystore.meta_fluidcapturedevice set "name" = upper(substring("name" from 1 for 1)) || substring("name" from 2 for length("name"));
 update entitystorematerialised.meta_fluidcapturedevice set "name" = upper(substring("name" from 1 for 1)) || substring("name" from 2 for length("name"));
+
+15-03-2023 - FB EPMA integration
+------------------------------------------------------------------------
+Baseview
+------------------
+epmaevents
+getroute
+
+Entity
+------------------
+fluidbalance_prescriptioninfusions

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ import { AddRouteComponent } from '../add-route/add-route.component';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { filters, filterParams, filterparam, filter, selectstatement, orderbystatement } from '../models/Filter.model';
 import { InfusionHistoryComponent } from '../continuous-infusion/infusion-history/infusion-history.component';
+import { EPMAIntegrationHelper } from './epmaintegration.helper';
 
 
 
@@ -69,12 +70,16 @@ export class FluidbalanceChartComponent implements OnInit, OnDestroy {
 
       this.appService.sessionStartDateTime = new Date(moment(currentDate).add(this.appService.appConfig.appsettings.sessionStartTime, "hours").toISOString());
       this.appService.sessionStopDateTime = new Date(moment(this.appService.sessionStartDateTime).add(24, "hours").toISOString());
-
-
       this.helper = new FluidbalanceHelper(appService, apiRequest, this.chartSubscriptions);
       this.helper.GetCurrentSession().subscribe(() => {
         this.DrawChart();
       });
+      // let empaIntegration = new EPMAIntegrationHelper(this.appService, this.subjects,this.apiRequest, this.subscriptions);
+      // empaIntegration.GetEPMAEvents(()=> {
+      //   this.helper.GetCurrentSession().subscribe(() => {
+      //     this.DrawChart();
+      //   });
+      // });
     }));
 
     this.subscriptions.add(this.subjects.drawChart.subscribe(async () => {
@@ -96,7 +101,7 @@ export class FluidbalanceChartComponent implements OnInit, OnDestroy {
     if (this.appService.FluidBalanceSession && this.appService.FluidBalanceSession.hasOwnProperty("fluidbalancesession_id")) {
       this.helper.GetRoutesInSession().subscribe(() => {
         this.helper.GetIntakeOutputForSession().subscribe(() => {
-          this.subjects.sessionChanged.next();
+          this.subjects.sessionChanged.next(true);
           this.generateChartData();
           this.chartLoadingComplete = true;
         });

@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -18,17 +18,29 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.If not, see<http://www.gnu.org/licenses/>.
 //END LICENSE BLOCK 
-
+/* Interneuron Observation App
+Copyright(C) 2023  Interneuron Holdings Ltd
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.If not, see<http://www.gnu.org/licenses/>. */
 
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Encounter } from '../models/encounter.model';
-import { Subscription } from 'rxjs';
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { action } from '../models/Filter.model';
 import { ConfigModel } from '../models/config.model';
 import * as moment from 'moment';
 import { Route, Routetype, Routetypefluidcapturedevice, Fluidcapturedevice, Expectedurineoutput, Fluidbalanceiotype, Fluidbalancesession, Fluidbalancesessionroute, Fluidbalanceintakeoutput, Continuousinfusion, FluidBalancePersonStatus, RouteConfig, Continuousinfusionevent } from '../models/fluidbalance.model';
 import { Observationscaletype, PersonObservationScale } from '../models/observations.model';
+import { PrescriptionInfusions, Product } from '../models/epmaevent.model';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +76,7 @@ export class AppService {
     this.MetaRouteTypeFluidCaptureDevices = [];
     this.MetaExpectedurineoutput = [];
     this.MetaIOType = [];
-
+    this.PrescriptionInfusion =[];
 
 
     this.FluidBalanceStatus = undefined;
@@ -91,6 +103,7 @@ export class AppService {
     this.showUrineOutputHistory = false;
 
     this.isWeightCaptured = false;
+    this.empaEvent = [];
   }
 
   resetFluidBalanceDaySession(){
@@ -140,7 +153,7 @@ export class AppService {
   public FluidBalanceSessionContinuousInfusions: Array<Continuousinfusion>;
   public FluidBalanceSessionContinuousInfusionsEvents: Array<Continuousinfusionevent>;
   public FluidBalanceEncounterSessions: Array<Fluidbalancesession>;
-
+  public PrescriptionInfusion: Array<PrescriptionInfusions> = [];
 
   //chart
 
@@ -161,7 +174,7 @@ export class AppService {
   public showUrineOutputHistory = false;
 
   public isWeightCaptured: boolean = false;
-
+  public empaEvent = [];
   constructor() {
   }
 
@@ -169,7 +182,7 @@ export class AppService {
 
   decodeAccessToken(token: string): any {
     try {
-      return jwt_decode(token);
+      return jwtDecode(token);
     }
     catch (Error) {
       return null;
@@ -371,6 +384,18 @@ export class AppService {
       return (Math.floor(vDevide) * 15) +15;
     }
   }
+  MedicationHasFlag(flag, m?: Product) {
+    return (flag == "clinicaltrial" && m.detail.clinicalTrialMedication && +m.detail.clinicalTrialMedication == 1)
+      || (flag == "controlled" && m.detail.isCustomControlledDrug)
+      || (flag == "blacktriangle" && (m.detail.emaAdditionalMonitoring == "1" || m.detail.blackTriangle && +m.detail.blackTriangle == 1))
+      || (flag == "critical" && m.detail.criticalDrug && +m.detail.criticalDrug == 1)
+      || (flag == "expensive" && m.detail.expensiveMedication && +m.detail.expensiveMedication == 1)
+      || (flag == "highalert" && m.detail.highAlertMedication && +m.detail.highAlertMedication == 1)
+      || (flag == "nonformulary" && m.detail.rnohFormularyStatuscd == "002")
+      || (flag == "unlicenced" && m.detail.unlicensedMedicationCd && +m.detail.unlicensedMedicationCd == 1)
+      || (flag == "bloodproduct" && m.detail.isBloodProduct == true)
+  }
+
 
 }
 

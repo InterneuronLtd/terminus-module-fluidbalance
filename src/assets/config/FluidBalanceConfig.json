@@ -1,13 +1,15 @@
 {
   "uris": {
     "baseuri": "SYNAPSE_DYNAMIC_URI",
-    "carerecordbaseuri": "CARERECORD_URI/FluidBalance"
+    "carerecordbaseuri": "CARERECORD_URI/FluidBalance",
+    "terminologybaseuri": "TERMINOLOGY_URI/api"
   },
   "enablelogging": true,
   "appsettings": {
     "sessionStartTime": 8,
     "maxIntakeRoutes": 6,
-    "maxOutputRoutes": 6
+    "maxOutputRoutes": 6,
+    "ivtype" : ["IV-Fluid","IV-Meds"]
   },
   "prodbuild": true
 }

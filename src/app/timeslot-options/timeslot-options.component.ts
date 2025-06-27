@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -99,6 +99,12 @@ export class TimeslotOptionsComponent implements OnInit, OnDestroy {
               intake.finishdatetime = ci.finishdatetime;
               if(this.appService.MetaRouteTypes.find(x => x.routetype_id == ci.routetype_id))
                 intake.routeType = this.appService.MetaRouteTypes.find(x => x.routetype_id == ci.routetype_id).routetype;
+              let iscancelled = this.appService.PrescriptionInfusion.find(x=>x.continuousinfusionid==intake.continuousinfusion_id);
+              if(iscancelled) {
+                intake.__iscancelled = iscancelled.iscancelled;
+              } else {
+                intake.__iscancelled = false;
+              }
               this.timeslotOption.push(intake);
               
             }
@@ -122,6 +128,13 @@ export class TimeslotOptionsComponent implements OnInit, OnDestroy {
                 intake.finishdatetime = ci.finishdatetime;
                 if(this.appService.MetaRouteTypes.find(x => x.routetype_id == ci.routetype_id))
                   intake.routeType = this.appService.MetaRouteTypes.find(x => x.routetype_id == ci.routetype_id).routetype;
+
+                  let iscancelled = this.appService.PrescriptionInfusion.find(x=>x.continuousinfusionid==intake.continuousinfusion_id);
+                  if(iscancelled) {
+                    intake.__iscancelled = iscancelled.iscancelled;
+                  } else {
+                    intake.__iscancelled = false;
+                  } 
                 this.timeslotOption.push(intake);
               }
               this.timeslotOption.sort((a, b) => new Date(a._createdDate).getTime() - new Date(b._createdDate).getTime()).sort((a, b) => new Date(a.datetime).getTime() - new Date(b.datetime).getTime());
@@ -191,6 +204,9 @@ export class TimeslotOptionsComponent implements OnInit, OnDestroy {
     }        
   }
   historySingleVolumeIntake(timeslot: TimeslotOption) {
+    if(timeslot.__iscancelled) {
+      return;
+    }
     if(timeslot.continuousinfusion_id)
      {
       this.subjects.openContinuosInfusionForm.next({ fluidbalancesessionroute_id: this.fluidbalancesessionroute_id, route_id: this.routeId,  continuousinfusion_id: timeslot.continuousinfusion_id,  type: "Setting" ,timeslot : this.timeslot});    

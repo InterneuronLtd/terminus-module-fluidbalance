@@ -1,7 +1,7 @@
 <!--BEGIN LICENSE BLOCK--> 
 <!--Interneuron Terminus
 
-Copyright(C) 2024  Interneuron Limited
+Copyright(C) 2025  Interneuron Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
                     <textarea class="form-control" [(ngModel)]="reasonForRemove" rows="2"></textarea>
                 </div>
                 <div class="float-right pb-2">
-                    <button type="button" (click)="deleteEvent(history)" class="btn btn-danger btn-sm">Remove</button>
+                    <button type="button" (click)="deleteEvent(history)" class="btn btn-danger btn-sm" [disabled]="reasonForRemove.trim() == ''">Remove</button>
                 </div>
 
 
@@ -96,7 +96,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="row" *ngIf="history.eventtype=='pause'">
                 <div class="col-8">
                     <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
-                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            class="fa fa-trash-o" data-bs-toggle="collapse" data-bs-target="#deleteEventcollapse"
                             aria-expanded="false" aria-controls="deleteEventcollapse"></i> Infusion Paused</h6>
 
                 </div>
@@ -112,7 +112,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="row" *ngIf="history.eventtype=='restart'">
                 <div class="col-8">
                     <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
-                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            class="fa fa-trash-o" data-bs-toggle="collapse" data-bs-target="#deleteEventcollapse"
                             aria-expanded="false" aria-controls="deleteEventcollapse"></i> Infusion Restarted</h6>
                     <div class="">Pump: {{history.pumpnumber}}</div>
                 </div>
@@ -128,7 +128,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="row" *ngIf="history.eventtype=='validation'">
                 <div class="col-8">
                     <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
-                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            class="fa fa-trash-o" data-bs-toggle="collapse" data-bs-target="#deleteEventcollapse"
                             aria-expanded="false" aria-controls="deleteEventcollapse"></i> Infusion Validated</h6>
                     <div class="">volume: {{history.validatedvolume}} ml</div>
                     <div class="">Pump: {{history.pumpnumber}}</div>
@@ -145,7 +145,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="row" *ngIf="history.eventtype=='Flush'">
                 <div class="col-8">
                     <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
-                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            class="fa fa-trash-o" data-bs-toggle="collapse" data-bs-target="#deleteEventcollapse"
                             aria-expanded="false" aria-controls="deleteEventcollapse"></i> Flush Added</h6>
                     <div class="">{{history.volume}} ml ({{history.routetype }})</div>
                 </div>
@@ -161,7 +161,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="row" *ngIf="history.eventtype=='Bolus'">
                 <div class="col-8">
                     <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
-                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            class="fa fa-trash-o" data-bs-toggle="collapse" data-bs-target="#deleteEventcollapse"
                             aria-expanded="false" aria-controls="deleteEventcollapse"></i> Stat Bolus Added</h6>
                     <div class="">volume: {{history.volume}} ml</div>
                     <div class="">Remaining volume: {{history.totalremainingvolume}} ml</div>
@@ -192,7 +192,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="row" *ngIf="history.eventtype=='fluidloss'">
                 <div class="col-8">
                     <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
-                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            class="fa fa-trash-o" data-bs-toggle="collapse" data-bs-target="#deleteEventcollapse"
                             aria-expanded="false" aria-controls="deleteEventcollapse"></i> Fluid loss Recorded</h6>
                     <div class="">Loss volume: {{history.fluidloss}} ml</div>
                     <div class="">Remaining volume: {{history.totalremainingvolume}} ml</div>
@@ -208,7 +208,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="row" *ngIf="history.eventtype=='flowrate'">
                 <div class="col-8">
                     <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
-                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            class="fa fa-trash-o" data-bs-toggle="collapse" data-bs-target="#deleteEventcollapse"
                             aria-expanded="false" aria-controls="deleteEventcollapse"></i> Flow Rate Changed</h6>
                     <div class="">Flow rate : {{history.flowrate}} ml/hour</div>
 
@@ -225,7 +225,7 @@ along with this program.If not, see<http://www.gnu.org/licenses/>. -->
             <div class="row" *ngIf="history.eventtype=='pumpnumber'">
                 <div class="col-8">
                     <h6 class="card-title"><i *ngIf="deleteableEventid===history.continuousinfusionevent_id"
-                            class="fa fa-trash-o" data-toggle="collapse" data-target="#deleteEventcollapse"
+                            class="fa fa-trash-o" data-bs-toggle="collapse" data-bs-target="#deleteEventcollapse"
                             aria-expanded="false" aria-controls="deleteEventcollapse"></i> Pump Changed</h6>
                     <div class="">Pump: {{history.pumpnumber}}</div>
                 </div>

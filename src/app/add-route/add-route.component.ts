@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ import { ApirequestService } from "../services/apirequest.service";
 import { filters, filter, filterParams, filterparam, selectstatement, orderbystatement } from "../models/Filter.model";
 import { SubjectsService } from "../services/subjects.service";
 import { AppService } from "../services/app.service";
-import { Subscription } from "rxjs";
+import { firstValueFrom, Subscription } from "rxjs";
 import { Route, Fluidbalancesessionroute, Fluidbalancesessionroutesessions } from "../models/fluidbalance.model";
 import { v4 as uuidv4 } from "uuid";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -101,14 +101,14 @@ export class AddRouteComponent implements OnInit, OnDestroy {
     //       this.subscriptions.add(this.apiRequest.postRequest(this.appService.baseURI + "/PostObject?synapsenamespace=core&synapseentityname=fluidbalancesessionroutesessions",
     //         JSON.stringify(sessionroutemapping)).
     //         subscribe(() => {
-    //           this.subjects.drawChart.next();
+    //           this.subjects.drawChart.next(true);
     //           this.bsModalRef.hide();
     //         }));
     //     }));
 
     this.subscriptions.add(this.apiRequest.postRequest(`${this.appService.appConfig.uris.carerecordbaseuri}/AddSessionRoute`, JSON.stringify(sessionroute))
     .subscribe((response) => {
-      this.subjects.drawChart.next();
+      this.subjects.drawChart.next(true);
       this.bsModalRef.hide();
     }));
   }
@@ -122,8 +122,8 @@ export class AddRouteComponent implements OnInit, OnDestroy {
       this.selectedRouteTypeText = "Output";
     }
 
-    const response = await this.apiRequest.postRequest(this.appService.baseURI + "/GetBaseViewListByPost/fluidbalance_getdisplayorderforfluidbalanceroute", this.createRouteFilter())
-      .toPromise()
+    const response = await firstValueFrom(this.apiRequest.postRequest(this.appService.baseURI + "/GetBaseViewListByPost/fluidbalance_getdisplayorderforfluidbalanceroute", this.createRouteFilter()))
+   
 
     if (response.length > 0) {
       //this.displayOrder = response[0].displayorder;

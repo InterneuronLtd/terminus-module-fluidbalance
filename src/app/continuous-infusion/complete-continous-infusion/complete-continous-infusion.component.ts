@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { Fluidbalanceintakeoutput } from 'src/app/models/fluidbalance.model';
 import { start } from 'repl';
+import { EPMAIntegrationHelper } from 'src/app/fluidbalance-chart/epmaintegration.helper';
 
 
 @Component({
@@ -238,9 +239,15 @@ export class CompleteContinousInfusionComponent implements OnInit, OnDestroy {
     this.upsertManager.addEntity('core', 'continuousinfusionevent', JSON.parse(JSON.stringify(completeEvent)));
     this.upsertManager.addEntity('core', 'continuousinfusion', JSON.parse(JSON.stringify(this.coreContinuousinfusion)));
     this.upsertManager.save((res) => {
-      this.subjects.drawChart.next();
+      this.subjects.drawChart.next(true);
       this.reFreshMenu.emit("refresh");
-      this.subjects.continuousInfusionMessage.next();
+      this.subjects.continuousInfusionMessage.next(true);
+      // let empaIntegration = new EPMAIntegrationHelper(this.appService, this.subjects,this.apiRequest, this.subscriptions);
+      // empaIntegration.saveAdministration(this.coreContinuousinfusion, ()=> {
+      //   this.subjects.drawChart.next(true);
+      //   this.reFreshMenu.emit("refresh");
+      //   this.subjects.continuousInfusionMessage.next(true);
+      // })    
     },
       (error) => {
 
@@ -638,7 +645,7 @@ export class CompleteContinousInfusionComponent implements OnInit, OnDestroy {
       ////////////////////save///////////////////////////////////////////////
       this.upsertManager.save((res) => {
         this.saveComplete();
-        //this.subjects.drawChart.next();
+        //this.subjects.drawChart.next(true);
         //this.reFreshMenu.emit("refresh");
       },
         (error) => {

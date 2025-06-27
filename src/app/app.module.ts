@@ -1,7 +1,7 @@
 //BEGIN LICENSE BLOCK 
 //Interneuron Terminus
 
-//Copyright(C) 2024  Interneuron Limited
+//Copyright(C) 2025  Interneuron Limited
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { Injector } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FluidBalanceMonitoringComponent } from './fluid-balance-monitoring/fluid-balance-monitoring.component';
 import { RecordWeightComponent } from './record-weight/record-weight.component';
 import { RunningTotalComponent } from './running-total/running-total.component';
@@ -59,12 +59,10 @@ import { SingleVolumeOutputHistoryComponent } from './single-volume-output-histo
 import { SbarEscalationFormComponent } from './sbar-escalation-form/sbar-escalation-form.component';
 import { NumberOnlyDirective } from './common/number-only.directive';
 import { UrineOutputHistoryComponent } from './urine-output-history/urine-output-history.component';
-import { CoreLibModule } from '@interneuroncic/interneuron-ngx-core-lib';
 import { PauseInfusionComponent } from './continuous-infusion/pause-infusion/pause-infusion.component';
 import { CompleteContinousInfusionComponent } from './continuous-infusion/complete-continous-infusion/complete-continous-infusion.component';
 import { AutoGrowDirective } from './common/auto-grow.directive';
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         FluidBalanceMonitoringComponent,
         RecordWeightComponent,
@@ -97,24 +95,19 @@ import { AutoGrowDirective } from './common/auto-grow.directive';
         CompleteContinousInfusionComponent,
         AutoGrowDirective
     ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
+    bootstrap: [], imports: [BrowserModule,
         BsDatepickerModule.forRoot(),
         BrowserAnimationsModule,
         FormsModule,
         CommonModule,
         ModalModule.forRoot(),
         TimepickerModule.forRoot(),
-        PopoverModule.forRoot(),
-        CoreLibModule
-    ],
-    providers: [
+        PopoverModule.forRoot()
+        ], providers: [
         DatePipe,
-        BsModalRef
-    ],
-    bootstrap: []
-})
+        BsModalRef,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
 
   constructor(private injector: Injector) {
